@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.myth.springboot.mapper.UserMapper">
+
+<!--    注册新用户-->
+    <insert id="addUser" parameterType="com.myth.springboot.entity.User" >
+        insert into user (sno,phone,address,type,username,password) values (#{sno},#{phone},#{address},#{type},#{username},#{password})
+    </insert>
+<!--    得到所在楼-->
+    <select id="getHouse" resultType="com.myth.springboot.entity.House">
+        select * from house
+    </select>
+<!--    得到所在楼层-->
+    <select id="getFloor" parameterType="string" resultType="com.myth.springboot.entity.Floor">
+        select * from floor
+        where
+        houseId=#{string}
+    </select>
+</mapper>

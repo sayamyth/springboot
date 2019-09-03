@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>注册</title>
+</head>
+<script type="text/javascript" src="../static/script/jquery.min.js"></script>
+<body>
+    <form>
+        用户名：<input type="text" name="username">
+        <br>
+        密码：<input type="password" name="password">
+        <br>
+        学号：<input type="text" name="sno">
+        <br>
+        手机号：<input type="text" name="phone">
+        <br>
+        地址：
+        <select id="house" name="house">
+            <option>--选择楼--</option>
+        </select>
+        <select id="floor" name="floor">
+            <option>--哪一层的--</option>
+        </select>
+    </form>
+    <button id="register">注册</button>
+</body>
+<script>
+    $(function () {
+        $.ajax({
+            type:"post",
+            //dataType:"jsonp",
+            url:"/getHouse",
+            success:function (result) {
+                console.log(result);
+                var house=$("#house");
+                //house.empty();
+                for (var i=0;i<result.length;i++){
+                    //alert(result.houseName);
+                    house.append("<option>"+result[i].id+"---"+result[i].houseName+"</option>")
+                }
+            }
+        })
+    })
+    $("#house").click(function () {
+        var floor=$("#floor");
+        floor.empty();
+        var option=$("#house option:selected").val();
+        var arr=new Array();
+        arr=option.split("---");
+        var id=arr[0];
+        console.log(id);
+        $.ajax({
+            type:"get",
+            //dataType:"jsonp",
+            url:"/getFloor",
+            data:"id="+id,
+            success:function (result) {
+
+                for (var i=0;i<result.length;i++) {
+                    floor.append("<option>" + result[i].houseFloor + "</option>")
+                }
+            }
+        })
+    })
+    $("#register").click(function () {
+        var data=$("form").serialize();
+        alert(data)
+        $.ajax({
+            url:"/register",
+            data:data,
+            success:function (result) {
+                alert(result)
+            }
+        })
+    })
+</script>
+</html>
