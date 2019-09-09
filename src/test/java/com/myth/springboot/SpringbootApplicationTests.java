@@ -13,21 +13,21 @@ import java.sql.SQLException;
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class SpringbootApplicationTests {
-    @Autowired
-    DataSource dataSource;
-    @Autowired
-    EmployeeMapper employeeMapper;
-    @Test
-    public void contextLoads() throws SQLException {
-        System.out.println(dataSource.getClass());
-        Connection connection = dataSource.getConnection();
-        System.out.println(connection);
-        connection.close();
-    }
-    @Test
-    public void tt(){
-        Employee emp=employeeMapper.getEmp();
-        System.out.println(emp.toString());
-    }
+//    @Autowired
+//    DataSource dataSource;
+//    @Autowired
+//    EmployeeMapper employeeMapper;
+//    @Test
+//    public void contextLoads() throws SQLException {
+//        System.out.println(dataSource.getClass());
+//        Connection connection = dataSource.getConnection();
+//        System.out.println(connection);
+//        connection.close();
+//    }
+//    @Test
+//    public void tt(){
+//        Employee emp=employeeMapper.getEmp();
+//        System.out.println(emp.toString());
+//    }
 
 }
