@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html class="x-admin-sm">
+
+<head>
+    <meta charset="UTF-8">
+    <title>欢迎页面-X-admin2.2</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8,target-densitydpi=low-dpi" />
+    <link rel="stylesheet" href="../static/css/font.css">
+    <link rel="stylesheet" href="../static/css/xadmin.css">
+    <script type="text/javascript" src="../static/lib/layui/layui.js" charset="utf-8"></script>
+    <script type="text/javascript" src="../static/js/xadmin.js"></script>
+    <script type="text/javascript" src="../static/script/jquery.min.js"></script>
+    <!-- 让IE8/9支持媒体查询，从而兼容栅格 -->
+    <!--[if lt IE 9]>
+    <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
+    <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body>
+<div>
+    <form>
+        姓名：<input type="text" id="name" name="name">
+        <br>
+        密码：<input type="text" id="password" name="password">
+        <br>
+        性别：<select id="sex" name="sex">
+                    <option>男</option>
+                    <option>女</option>
+              </select>
+        <br>
+        班级：<select id="cla" name="cla"></select>
+        <br>
+        院系：<select id="dept" name="dept"></select>
+        <br>
+        <input type="button" value="增加"  id="add" onclick="addStudent()">
+    </form>
+</div>
+
+
+
+</body>
+<script>
+    $(function () {
+        var cla=$("#cla").empty();
+        var dept=$("#dept").empty();
+
+        $.ajax({
+            url:"getClassDept",
+            success:function (result) {
+                console.log(result)
+                // alert(result.extend.classes.list)
+                $.each(result.extend.classes,function (index,item) {
+                    var option1=$("<option></option>").append(item.c_id+"-"+item.c_name)
+                    cla.append(option1);
+                })
+                $.each(result.extend.depts,function (index,item) {
+                    var option2=$("<option></option>").append(item.d_id+"-"+item.d_name)
+                    dept.append(option2);
+                })
+            },
+            error:function (result) {
+                alert("出错啦")
+            }
+        })
+    })
+
+
+    function show() {
+        
+    }
+    function addStudent() {
+        var data=$("form").serialize();
+        $.ajax({
+            url:"/studentAdd",
+            data:data,
+            success:function (result) {
+                alert(result.extend.msg);
+            },
+            error:function (result) {
+                alert(result.extend.msg)
+            }
+        })
+    }
+
+</script>
+</html>

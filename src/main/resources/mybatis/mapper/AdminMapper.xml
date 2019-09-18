@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.myth.springboot.mapper.AdminMapper">
+    <!--    查询学生详细信息，可以附带条件，id，name都可以-->
+    <resultMap id="sas" type="com.myth.springboot.entity.Student">
+        <id property="s_id" column="s_id"></id>
+        <result property="user_id" column="user_id"></result>
+        <result property="s_name" column="s_name"></result>
+        <result property="sex" column="sex"></result>
+        <association property="dept" javaType="com.myth.springboot.entity.Dept">
+            <id property="d_id" column="d_id"></id>
+            <result property="d_name" column="d_name"></result>
+        </association>
+        <association property="cla" javaType="com.myth.springboot.entity.Class">
+            <id property="c_id" column="c_id"></id>
+            <result property="c_name" column="c_name"></result>
+        </association>
+    </resultMap>
+    <select id="studentAllSelect" parameterType="com.myth.springboot.entity.Student" resultMap="sas">
+        select * from student s,class c,dept d
+        <where>
+            s.class_id=c.c_id and s.dept_id=d_id
+            <if test="s_id != null">
+                and s_id=#{s_id}
+            </if>
+            <if test="s_name != null">
+                and s_name like %#{s_name}%
+            </if>
+        </where>
+    </select>
+    <!--    更新学生信息-->
+    <update id="studentUpdateById" parameterType="com.myth.springboot.entity.Student">
+        update student set s_name=#{s_name},sex=#{sex},class_id=#{class_id},dept_id=#{dept_id}
+        where s_id=#{s_id}
+    </update>
+    <!--    删除学生-->
+    <delete id="studentDeleteById" parameterType="com.myth.springboot.entity.Student">
+        delete student where s_id=#{s_id}
+    </delete>
+
+
+
+<!--    查询部门-->
+    <select id="deptSelectAll" parameterType="com.myth.springboot.entity.Dept" resultType="com.myth.springboot.entity.Dept">
+        select * from dept
+    </select>
+<!--    修改部门-->
+    <update id="deptUpdateById" parameterType="com.myth.springboot.entity.Dept">
+        update dept set dept d_name=#{d_name} where d_id=#{d_id}
+    </update>
+<!--    删除部门-->
+    <delete id="deptDeleteById" parameterType="com.myth.springboot.entity.Dept">
+        delete dept where d_id=#{d_id}
+    </delete>
+
+
+    <!--    查询班级-->
+    <select id="classSelectAll" parameterType="com.myth.springboot.entity.Class" resultType="com.myth.springboot.entity.Class">
+        select * from class
+    </select>
+    <!--    修改班级-->
+    <update id="classUpdateById" parameterType="com.myth.springboot.entity.Class">
+        update class set c_name=#{c_name} where c_id=#{c_id}
+    </update>
+    <!--    删除班级-->
+    <delete id="classDeleteById" parameterType="com.myth.springboot.entity.Class">
+        delete class where c_id=#{c_id}
+    </delete>
+</mapper>

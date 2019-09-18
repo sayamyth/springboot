@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+</head>
+<script type="text/javascript" src="../static/script/jquery.min.js"></script>
+<body>
+
+</body>
+<script>
+    $(function () {
+        $.ajax({
+            url:"http://localhost:8080/selectStudent",
+            dataType:"text",
+            success:function (result) {
+                $.each(result,function () {
+                    
+                })
+            },
+            error:function (result) {
+                console.log(result);
+                alert(11112)
+            }
+        })
+    })
+</script>
+</html>
