@@ -1,13 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.myth.springboot.mapper.AdminMapper">
+<mapper namespace="com.myth.springboot.dao.AdminMapper">
+    <!--    查找用户-->
+    <select id="userSelect" resultType="com.myth.springboot.entity.User"
+            parameterType="com.myth.springboot.entity.User">
+        select * from user
+    </select>
+    <!--    通过id修改用户-->
+    <update id="userUpdate" parameterType="com.myth.springboot.entity.User">
+        update user set name=#{name},password=#{password},type_id=#{type_id}
+        where id =#{id}
+    </update>
+    <!--    删除id-->
+    <delete id="userDelete" parameterType="com.myth.springboot.entity.User">
+        delete from user where id=#{id}
+    </delete>
     <!--    查询学生详细信息，可以附带条件，id，name都可以-->
     <resultMap id="sas" type="com.myth.springboot.entity.Student">
         <id property="s_id" column="s_id"></id>
         <result property="user_id" column="user_id"></result>
         <result property="s_name" column="s_name"></result>
         <result property="sex" column="sex"></result>
+        <result property="class_id" column="class_id"></result>
+        <result property="dept_id" column="dept_id"></result>
         <association property="dept" javaType="com.myth.springboot.entity.Dept">
             <id property="d_id" column="d_id"></id>
             <result property="d_name" column="d_name"></result>
@@ -36,27 +52,63 @@
     </update>
     <!--    删除学生-->
     <delete id="studentDeleteById" parameterType="com.myth.springboot.entity.Student">
-        delete student where s_id=#{s_id}
+        delete from student where s_id=#{s_id}
     </delete>
 
 
+    <!--    查询老师，可以附带条件-->
+    <resultMap id="tsa" type="com.myth.springboot.entity.Teacher">
+        <id property="t_id" column="t_id"></id>
+        <result property="user_id" column="user_id"></result>
+        <result property="t_name" column="t_name"></result>
+        <result property="sex" column="sex"></result>
+        <result property="dept_id" column="dept_id"></result>
+        <association property="dept">
+            <id property="d_id" column="d_id"></id>
+            <result property="d_name" column="d_name"></result>
+        </association>
+    </resultMap>
+    <select id="teacherSelectAll" parameterType="com.myth.springboot.entity.Teacher" resultMap="tsa">
+        select * from teacher t,dept d
+        <where>
+            t.dept_id=d.d_id
+            <if test="t_id != null">
+                and t_id=#{t_id}
+            </if>
+            <if test="t_name != null">
+                and t_name like %${t_name}%
+            </if>
+        </where>
+    </select>
+    <!--    更新教师信息-->
+    <update id="teacherUpdate" parameterType="com.myth.springboot.entity.Teacher">
+        update teacher set t_name=#{t_name},sex=#{sex},dept_id=#{dept_id}
+        where t_id=#{t_id}
+    </update>
+    <!--    通过id删除教师-->
+    <delete id="teacherDelete" parameterType="com.myth.springboot.entity.Teacher">
+        delete from teacher where t_id=#{t_id}
+    </delete>
 
-<!--    查询部门-->
-    <select id="deptSelectAll" parameterType="com.myth.springboot.entity.Dept" resultType="com.myth.springboot.entity.Dept">
+
+    <!--    查询部门-->
+    <select id="deptSelectAll" parameterType="com.myth.springboot.entity.Dept"
+            resultType="com.myth.springboot.entity.Dept">
         select * from dept
     </select>
-<!--    修改部门-->
+    <!--    修改部门-->
     <update id="deptUpdateById" parameterType="com.myth.springboot.entity.Dept">
         update dept set dept d_name=#{d_name} where d_id=#{d_id}
     </update>
-<!--    删除部门-->
+    <!--    删除部门-->
     <delete id="deptDeleteById" parameterType="com.myth.springboot.entity.Dept">
-        delete dept where d_id=#{d_id}
+        delete from dept where d_id=#{d_id}
     </delete>
 
 
     <!--    查询班级-->
-    <select id="classSelectAll" parameterType="com.myth.springboot.entity.Class" resultType="com.myth.springboot.entity.Class">
+    <select id="classSelectAll" parameterType="com.myth.springboot.entity.Class"
+            resultType="com.myth.springboot.entity.Class">
         select * from class
     </select>
     <!--    修改班级-->
@@ -65,6 +117,6 @@
     </update>
     <!--    删除班级-->
     <delete id="classDeleteById" parameterType="com.myth.springboot.entity.Class">
-        delete class where c_id=#{c_id}
+        delete from class where c_id=#{c_id}
     </delete>
 </mapper>

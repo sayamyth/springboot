@@ -48,6 +48,12 @@ public class User {
         this.type_id = type_id;
     }
 
+    public User(String name, String password, String type_id) {
+        this.name = name;
+        this.password = password;
+        this.type_id = type_id;
+    }
+
     @Override
     public String toString() {
         return "User{" +

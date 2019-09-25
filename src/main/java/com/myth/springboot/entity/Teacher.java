@@ -6,8 +6,18 @@ public class Teacher {
     private String t_name;
     private String sex;
     private String dept_id;
-    private String type_id;
     private Dept dept;
+
+    //为layui添加字段
+    private String dept_name;
+
+    public String getDept_name() {
+        return dept_name;
+    }
+
+    public void setDept_name(String dept_name) {
+        this.dept_name = dept_name;
+    }
 
     public Integer getT_id() {
         return t_id;
@@ -49,14 +59,6 @@ public class Teacher {
         this.dept_id = dept_id;
     }
 
-    public String getType_id() {
-        return type_id;
-    }
-
-    public void setType_id(String type_id) {
-        this.type_id = type_id;
-    }
-
     public Dept getDept() {
         return dept;
     }
@@ -68,12 +70,10 @@ public class Teacher {
     public Teacher() {
     }
 
-    public Teacher(Integer t_id, String user_id, String t_name, String sex, String dept_id, String type_id) {
+    public Teacher(Integer t_id, String t_name, String sex, String dept_id) {
         this.t_id = t_id;
-        this.user_id = user_id;
         this.t_name = t_name;
         this.sex = sex;
         this.dept_id = dept_id;
-        this.type_id = type_id;
     }
 }

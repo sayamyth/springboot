@@ -21,12 +21,17 @@ public class Dept {
         this.d_name = d_name;
     }
 
+    public Dept() {
+    }
 
     public Dept(Integer d_id, String d_name) {
         this.d_id = d_id;
         this.d_name = d_name;
     }
 
+    public Dept(Integer d_id) {
+        this.d_id = d_id;
+    }
 
     @Override
     public String toString() {

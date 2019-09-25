@@ -10,6 +10,26 @@ public class Student {
     private Class cla;
     private Dept dept;
 
+    //为匹配layui设计两个字段
+    private String class_name;
+    private String dept_name;
+
+    public String getClass_name() {
+        return class_name;
+    }
+
+    public void setClass_name(String class_name) {
+        this.class_name = class_name;
+    }
+
+    public String getDept_name() {
+        return dept_name;
+    }
+
+    public void setDept_name(String dept_name) {
+        this.dept_name = dept_name;
+    }
+
     public Integer getS_id() {
         return s_id;
     }
@@ -78,14 +98,7 @@ public class Student {
     public Student() {
     }
 
-    public Student(Integer s_id, String user_id, String s_name, String sex, String class_id, String dept_id) {
-        this.s_id = s_id;
-        this.user_id = user_id;
-        this.s_name = s_name;
-        this.sex = sex;
-        this.class_id = class_id;
-        this.dept_id = dept_id;
-    }
+
 
     public Student(Integer s_id, String s_name, String sex, String class_id, String dept_id) {
         this.s_id = s_id;
@@ -94,4 +107,6 @@ public class Student {
         this.class_id = class_id;
         this.dept_id = dept_id;
     }
+
+
 }

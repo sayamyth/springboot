@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.myth.springboot.dao.ClassMapper">
+<!--    添加班级-->
+    <insert id="classInsert" parameterType="com.myth.springboot.entity.Class">
+        insert into class values (null,#{c_name},null)
+    </insert>
+    <!--    查询班级-->
+    <select id="classSelect" parameterType="com.myth.springboot.entity.Class"
+            resultType="com.myth.springboot.entity.Class">
+        select * from class
+        <where>
+            <if test="c_id != null">
+                c_id=#{c_id}
+            </if>
+        </where>
+    </select>
+    <select id="classSelectWithPage" parameterType="com.myth.springboot.entity.Class"
+            resultType="com.myth.springboot.entity.Class">
+        select * from class
+        <where>
+            <if test="c_id != null">
+                c_id=#{c_id}
+            </if>
+        </where>
+    </select>
+    <!--    修改班级-->
+    <update id="classUpdateById" parameterType="com.myth.springboot.entity.Class">
+        update class set c_name=#{c_name} where c_id=#{c_id}
+    </update>
+    <!--    删除班级-->
+    <delete id="classDeleteById" parameterType="com.myth.springboot.entity.Class">
+        delete from class where c_id=#{c_id}
+    </delete>
+</mapper>

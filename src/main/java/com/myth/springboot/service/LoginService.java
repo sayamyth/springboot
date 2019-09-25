@@ -1,7 +1,7 @@
 package com.myth.springboot.service;
 
 import com.myth.springboot.entity.User;
-import com.myth.springboot.mapper.LoginMapper;
+import com.myth.springboot.dao.LoginMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

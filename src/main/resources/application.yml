@@ -2,7 +2,7 @@ spring:
   datasource:
     username: root
     password: 123456
-    url: jdbc:mysql://localhost:3306/data?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC
+    url: jdbc:mysql://localhost:3306/data?useUnicode=true&useJDBCCompliantTimezoneShift=true&useeLegacyDatetimeCode=false&serverTimezone=UTC
     driver-class-name: com.mysql.cj.jdbc.Driver
     type: com.alibaba.druid.pool.DruidDataSource
 # 连接池的配置信息
@@ -17,23 +17,24 @@ spring:
     # 配置一个连接在池中最小生存的时间，单位是毫秒
     minEvictableIdleTimeMillis: 300000
     validationQuery: SELECT 1 FROM DUAL
-    testWhileIdle: true
-    testOnBorrow: false
-    testOnReturn: false
+    testWhileIdle: false
+    testOnBorrow: true
+    testOnReturn: true
     # 打开PSCache，并且指定每个连接上PSCache的大小
     poolPreparedStatements: true
     maxPoolPreparedStatementPerConnectionSize: 20
     # 配置监控统计拦截的filters，去掉后监控界面sql无法统计，'wall'用于防火墙
     filters: stat,wall,log4j
     # 通过connectProperties属性来打开mergeSql功能；慢SQL记录
-    connectionProperties=druid.stat.mergeSql: true;druid.stat.slowSqlMillis=5000
+    connectionProperties=druid.stat.mergeSql: false;druid.stat.slowSqlMillis=5000
   mvc:
-    static-path-pattern: /static/**
+    static-path-pattern: /**
+
 #配置mybatis配置文件路径
 mybatis:
   config-location: classpath:mybatis/mybatis-config.xml
-  mapper-locations: classpath:mybatis/mapper/*.xml
+  mapper-locations: classpath:mybatis/mapper/**.xml
 #日志信息打印sql语句
 logging:
   level:
-    com.myth.springboot.mapper: debug
+    com.myth.springboot.dao: debug

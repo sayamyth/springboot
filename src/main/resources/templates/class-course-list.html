@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html class="x-admin-sm" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>欢迎页面-X-admin2.2</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <link rel="stylesheet" href="../static/layuiadmin/layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="../static/layuiadmin/style/admin.css" media="all">
+    <script src="../static/script/jquery.min.js"></script>
+    <script src="../static/layuiadmin/layui/layui.js"></script>
+
+</head>
+
+<body>
+<div class="layui-fluid">
+    <div class="layui-row layui-col-space15">
+        <div class="layui-col-md12">
+            <div class="layui-card">
+                <div class="layui-card-body ">
+
+                </div>
+                <div class="layui-card-header">
+                    <button class="layui-btn layui-btn-danger" onclick="delAll()">
+                        <i class="layui-icon"></i>批量删除
+                    </button>
+                    <button class="layui-btn" onclick="xadmin.open('添加用户','./toStudentAdd',800,600)">
+                        <i class="layui-icon"></i>添加
+                    </button>
+                </div>
+                <div class="layui-card-body ">
+                    <table class="layui-table layui-form">
+                        <thead>
+                        <tr>
+                            <th>
+                                <input type="checkbox" name="" lay-skin="primary">
+                            </th>
+                            <th>班级名</th>
+                            <th>课程名</th>
+                            <th>操作</th>
+
+                        </tr>
+                        </thead>
+                        <tbody id="tt">
+
+                        </tbody>
+                    </table>
+                </div>
+                <div class="layui-card-body ">
+                    <div class="page">
+                        <div>
+                            <a class="prev layui-badge layui-bg-cyan" id="page_info">&lt;&lt;</a>
+
+                            <a class="next" id="page_nav">&gt;&gt;</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+<script type="text/javascript">
+    layui.config({
+        base: '../static/layuiadmin/' //静态资源所在路径
+    }).extend({
+        index: 'lib/index' //主入口模块
+    }).use('index')
+
+    function update(id) {
+        //window.location.href = "alllist?classid="+aaa;
+        // xadmin.open('编辑', 'teacherGetById?id=' + id, 500, 400);
+        layui.layer.open({
+            type: 2,
+            content: ['class_courseGetById?id=' + id, 'no'],
+            area: ['460px', '380px']
+        })
+    }
+
+    function sub(id) {
+        if (confirm("确定要删除嘛")) {
+            // xadmin.open('编辑','studentDelete?id='+id,500,300);
+            $.ajax({
+                url: "/class_courseDelete",
+                data: {"id": id},
+                success: function (result) {
+                    alert(result.extend.msg);
+                    location.reload();
+                },
+                error: function () {
+                    alert("肿么啦！出错啦！")
+                }
+
+            })
+        }
+
+    }
+
+    $(function () {
+        //去首页
+        to_page(1);
+    })
+
+    //去第几页
+    function to_page(pn) {
+        $.ajax({
+            url: "/class_courseListWithPage",
+            data: "pn=" + pn,
+            success: function (data) {
+                cla(data);
+                pageInfo(data);
+                pageNav(data)
+            }
+        })
+    }
+
+    function cla(data) {
+        var tt = $("#tt").empty();
+        //alert(data.extend.page.list);
+        var tt = $("#tt");
+        $.each(data.extend.page.list, function (index, item) {
+            var th = $("<th></th>").append(item.id);
+            var className = $("<th></th>").append(item.cla.c_name);
+            var courseName =$("<th></th>").append(item.course.co_name)
+            var td = $("<td></td>").addClass("td-manage");
+            var update = $("<a onclick='update(" + item.id + ")'><i class=\"layui-icon\">&#xe63c;</i></a>");
+            var del = $("<a onclick='sub(" + item.id + ")'><i class=\"layui-icon\">&#xe640;</i></a>");
+            td.append(update).append(del);
+            $("<tr></tr>").append(th).append(className).append(courseName).append(td).appendTo(tt);
+
+        })
+    }
+
+    //解析分页信息
+    function pageInfo(data) {
+        //清空当前元素
+        $("#page_info").empty();
+        $("#page_info").append("当前 <span class='layui-badge layui-bg-black'>" + data.extend.page.pageNum + "</span> 页,总 <span class='layui-badge layui-bg-black'>" + data.extend.page.pages + "</span> 页,总 <span class='layui-badge layui-bg-black'>" + data.extend.page.total + "</span> 条记录");
+    };
+
+    //解析显示分页条
+    function pageNav(data) {
+        //清空当前元素
+        $("#page_nav").empty();
+        var ul = $("<ul></ul>").addClass("pagination");
+        //首页
+        var fristPage = $("<li class='layui-input-inline'></li>").append($("<a class='layui-btn layui-btn-sm layui-btn-primary'></a>").append("首页"));
+        //左箭头
+        var leftPage = $("<li class='layui-input-inline'></li>").append($("<a class='layui-btn layui-btn-sm layui-btn-primary'></a>").append("&laquo;"));
+        //右箭头
+        if (data.extend.page.hasPreviousPage == false) {
+            fristPage.children().removeClass().addClass("layui-btn layui-btn-sm layui-btn-disabled");
+            leftPage.children().removeClass().addClass("layui-btn layui-btn-sm layui-btn-disabled");
+        } else {
+            fristPage.click(function () {
+                to_page(1);
+            });
+            leftPage.click(function () {
+                to_page(data.extend.page.pageNum - 1);
+            })
+        }
+
+        var rightPage = $("<li class='layui-input-inline'></li>").append($("<a class='layui-btn layui-btn-sm layui-btn-primary'></a>").append("&raquo;"));
+        //末页
+        var lastPage = $("<li class='layui-input-inline'></li>").append($("<a class='layui-btn layui-btn-sm layui-btn-primary'></a>").append("末页"));
+        if (data.extend.page.hasNextPage == false) {
+            rightPage.children().removeClass().addClass("layui-btn layui-btn-sm layui-btn-disabled");
+            lastPage.children().removeClass().addClass("layui-btn layui-btn-sm layui-btn-disabled");
+        } else {
+            rightPage.click(function () {
+                to_page(data.extend.page.pageNum + 1);
+            });
+            lastPage.click(function () {
+                to_page(data.extend.page.pages);
+            })
+        }
+
+        //循环页号
+        ul.append(fristPage).append(leftPage);
+        $.each(data.extend.page.navigatepageNums, function (index, item) {
+            var numLi = $("<li class='layui-input-inline'></li>").append($("<a class='layui-btn layui-btn-sm layui-btn-primary'></a>").append(item));
+            if (data.extend.page.pageNum == item) {
+                numLi.empty();
+                numLi = $("<li class='layui-input-inline'></li>").append($("<a class='layui-btn layui-btn-sm'></a>").append(item))
+            }
+            numLi.click(function () {
+                to_page(item);
+            })
+            ul.append(numLi);
+        });
+        ul.append(rightPage).append(lastPage);
+
+        var nav = $("<nav></nav>").append(ul);
+        nav.appendTo("#page_nav");
+    };
+</script>
+</html>

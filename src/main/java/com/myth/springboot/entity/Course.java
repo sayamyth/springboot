@@ -26,6 +26,9 @@ public class Course {
         this.co_name = co_name;
     }
 
+    public Course() {
+    }
+
     @Override
     public String toString() {
         return "Course{" +

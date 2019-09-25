@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.myth.springboot.dao.ClassCourseMapper">
+<!--    添加班级课程-->
+    <insert id="ccInsert" parameterType="com.myth.springboot.entity.ClassCourse">
+        insert into class_course values (null,#{class_id},#{course_id})
+    </insert>
+    <!--    查询班级课程-->
+    <resultMap id="ccs" type="com.myth.springboot.entity.ClassCourse">
+        <id property="id" column="id"></id>
+        <result property="class_id" column="class_id"></result>
+        <result property="course_id" column="course_id"></result>
+        <association property="cla">
+            <id property="c_id" column="c_id"></id>
+            <result property="c_name" column="c_name"></result>
+        </association>
+        <association property="course">
+            <id property="co_id" column="co_id"></id>
+            <result property="co_name" column="co_name"></result>
+        </association>
+    </resultMap>
+    <select id="ccSelect" parameterType="com.myth.springboot.entity.ClassCourse"
+            resultMap="ccs">
+        select * from class_course cc,class c,course co
+        <where>
+            cc.class_id = c.c_id and cc.course_id = co_id
+            <if test="id != null">
+                and id=#{id}
+            </if>
+        </where>
+    </select>
+    <!--    修改班级课程-->
+    <update id="ccUpdateById" parameterType="com.myth.springboot.entity.ClassCourse">
+        update class_course set class_id=#{class_id},course_id=#{course_id} where id=#{id}
+    </update>
+    <!--    删除班级课程-->
+    <delete id="ccDeleteById" parameterType="com.myth.springboot.entity.ClassCourse">
+        delete from class_course where id=#{id}
+    </delete>
+</mapper>
