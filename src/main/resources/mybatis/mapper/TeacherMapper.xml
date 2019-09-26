@@ -2,6 +2,9 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.myth.springboot.dao.TeacherMapper">
+    <insert id="teacherAdd" parameterType="com.myth.springboot.entity.Teacher">
+        insert into teacher values (null,#{user_id},#{t_name},#{sex},#{dept_id})
+    </insert>
     <!--    查询老师，可以附带条件-->
     <resultMap id="tsa" type="com.myth.springboot.entity.Teacher">
         <id property="t_id" column="t_id"></id>
@@ -9,23 +12,26 @@
         <result property="t_name" column="t_name"></result>
         <result property="sex" column="sex"></result>
         <result property="dept_id" column="dept_id"></result>
+        <result property="user_name" column="name"></result>
         <association property="dept">
             <id property="d_id" column="d_id"></id>
             <result property="d_name" column="d_name"></result>
         </association>
+
     </resultMap>
     <select id="teacherSelect" parameterType="com.myth.springboot.entity.Teacher" resultMap="tsa">
-        select * from teacher t,dept d
+        select * from teacher LEFT JOIN dept on teacher.dept_id = dept.d_id
+        LEFT JOIN user ON teacher.user_id=user.id
         <where>
-            t.dept_id=d.d_id
+
             <if test="t_id != null">
-                and t_id=#{t_id}
+                teacher.t_id=#{t_id}
             </if>
             <if test="t_name != null">
-                and t_name like %${t_name}%
+                teacher.t_name like %${t_name}%
             </if>
             <if test="dept_id != null">
-                and t.dept_id = #{dept_id}
+                teacher.dept_id = #{dept_id}
             </if>
         </where>
     </select>
@@ -37,6 +43,9 @@
     <!--    通过id删除教师-->
     <delete id="teacherDelete" parameterType="com.myth.springboot.entity.Teacher">
         delete from teacher where t_id=#{t_id}
+    </delete>
+    <delete id="teacherDeleteByUserId" parameterType="com.myth.springboot.entity.Teacher">
+        delete from teacher where user_id=#{user_id}
     </delete>
 
 </mapper>

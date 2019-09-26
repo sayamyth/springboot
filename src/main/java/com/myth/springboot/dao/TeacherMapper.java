@@ -18,5 +18,8 @@ public interface TeacherMapper {
     int teacherUpdate(Teacher teacher);
     //删除教师及用户信息
     int teacherDelete(Teacher teacher);
+    int teacherDeleteByUserId(Teacher teacher);
+
+    int teacherAdd(Teacher teacher);
 
 }

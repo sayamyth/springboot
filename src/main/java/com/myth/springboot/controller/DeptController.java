@@ -11,12 +11,10 @@ import com.myth.springboot.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.xml.crypto.Data;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -76,7 +74,7 @@ public class DeptController {
     @RequestMapping("/deptGetById")
     @ResponseBody
     public ModelAndView deptGetById(String id){
-        ModelAndView mv = new ModelAndView("dept-update");
+        ModelAndView mv = new ModelAndView("dept/dept-update");
         Dept dept = new Dept();
         dept.setD_id(Integer.valueOf(id).intValue());
         List<Dept> depts = deptService.deptSelect(dept);
@@ -87,6 +85,13 @@ public class DeptController {
     @RequestMapping("/deptUpdate")
     @ResponseBody
     public Msg deptUpdate(String id,String name){
+
+        List<Dept> depts = deptService.deptSelect(new Dept());
+        for (Dept dept:depts){
+            if (dept.getD_name().equals(name)){
+                return Msg.success().add("msg","已有该部们");
+            }
+        }
         System.out.println(id+name);
         Dept dept = new Dept(Integer.valueOf(id).intValue(),name);
         int i = deptService.deptUpdateById(dept);
@@ -143,8 +148,8 @@ public class DeptController {
                 List<Teacher> teachers = teacherService.teacherSelect(teacher);
                 if (teachers.isEmpty()){
                     int j = deptService.deptDeleteById(dept_id);
-                    if (i>0){
-                        s+=str[i]+"删除成功";
+                    if (j>0){
+                        s+=str[i]+"删除部门成功";
                     }
                 }else {
                     s+=str[i]+"存在教师关联，删除失败";

@@ -1,21 +1,18 @@
 package com.myth.springboot.controller;
 
-import ch.qos.logback.core.pattern.color.MagentaCompositeConverter;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.myth.springboot.entity.Msg;
 import com.myth.springboot.entity.Teacher;
-import com.myth.springboot.entity.User;
 import com.myth.springboot.service.TeacherService;
 import com.myth.springboot.service.UserService;
-import jdk.nashorn.internal.runtime.FindProperty;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.websocket.server.PathParam;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -29,6 +26,29 @@ public class TeacherController {
     /**
      * 教师业务
      */
+
+    @RequestMapping("/teacherAdd")
+    @ResponseBody
+    public Msg teacherAdd(@PathParam("user_id") String user_id, @PathParam("t_name")String t_name, @PathParam("sex")String sex, @PathParam("d_name")String d_name){
+        String str[]=d_name.split("-");
+        String dept_id=str[0];
+        Teacher teacher = new Teacher(user_id,t_name,sex,dept_id);
+
+        List<Teacher> t=teacherService.teacherSelect(new Teacher());
+        for (Teacher tt:t){
+            if (tt.getUser_id().equals(user_id)){
+                return Msg.success().add("msg","已有该教师信息！！！");
+            }
+        }
+        int i= teacherService.teacherAdd(teacher);
+        if (i>0){
+            return Msg.success().add("msg","教师信息添加成功！！！");
+        }else {
+            return Msg.success().add("msg","教师信息添加失败！！！");
+        }
+
+    }
+
     @RequestMapping("/teacherListWithPage")
     @ResponseBody
     public Map teacherList(String page, String limit){
@@ -36,7 +56,11 @@ public class TeacherController {
         Teacher t=new Teacher();
         List<Teacher> teacher = teacherService.teacherSelect(t);
         for (int i = 0;i<teacher.size();i++){
-            teacher.get(i).setDept_name(teacher.get(i).getDept().getD_name());
+            if (teacher.get(i).getDept()==null){
+                teacher.get(i).setDept_name("");
+            }else {
+                teacher.get(i).setDept_name(teacher.get(i).getDept().getD_name());
+            }
         }
         PageInfo pageInfo = new PageInfo(teacher,5);
         Map<String,Object> map = new HashMap<>();
@@ -47,7 +71,7 @@ public class TeacherController {
     @RequestMapping("/teacherGetById")
     @ResponseBody
     public ModelAndView teacherGetById(String id){
-        ModelAndView mv= new ModelAndView("teacher-update");
+        ModelAndView mv= new ModelAndView("teacher/teacher-update");
         Integer t_id = Integer.valueOf(id).intValue();
         Teacher teacher = new Teacher();
         teacher.setT_id(t_id);
@@ -108,9 +132,9 @@ public class TeacherController {
             teacher.setT_id(t_id);
             int j=teacherService.teacherDelete(teacher);
             if (j > 0) {
-                s+=str[i]+"学生详情删除成功";
+                s+=str[i]+"教师详情删除成功";
             } else {
-                s+=str[i]+"学生详情删除失败";
+                s+=str[i]+"教师详情删除失败";
             }
         }
          return Msg.success().add("msg",s);

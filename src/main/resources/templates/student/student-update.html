@@ -39,7 +39,7 @@
         <label class="layui-form-label">班级</label>
         <div class="layui-input-block">
             <input type="text" onclick="hitClass()" name="c_name" required lay-verify="required"
-                   th:value="${student.cla.getC_id()}+'-'+${student.cla.getC_name()}" placeholder="" autocomplete="off"
+                   th:value="${student.cla?.getC_id()}+'-'+${student.cla?.getC_name()}" placeholder="" autocomplete="off"
                    class="layui-input">
         </div>
         <div class="layui-form-mid layui-word-aux">点击修改</div>
@@ -48,7 +48,7 @@
         <label class="layui-form-label">院系</label>
         <div class="layui-input-block">
             <input type="text" onclick="hitDept()" name="d_name" required lay-verify="required"
-                   th:value="${student.dept.getD_id()}+'-'+${student.dept.getD_name()}" placeholder=""
+                   th:value="${student.dept?.getD_id()}+'-'+${student.dept?.getD_name()}" placeholder=""
                    autocomplete="off" class="layui-input">
         </div>
         <div class="layui-form-mid layui-word-aux">点击修改</div>

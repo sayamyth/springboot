@@ -28,4 +28,12 @@ public class TeacherService {
     public int teacherDelete(Teacher teacher){
         return mapper.teacherDelete(teacher);
     }
+    public int teacherDeleteByUserId(Teacher teacher){
+        return mapper.teacherDeleteByUserId(teacher);
+    }
+
+
+    public int teacherAdd(Teacher teacher){
+        return mapper.teacherAdd(teacher);
+    }
 }

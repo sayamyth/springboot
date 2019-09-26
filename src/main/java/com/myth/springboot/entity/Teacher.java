@@ -7,6 +7,15 @@ public class Teacher {
     private String sex;
     private String dept_id;
     private Dept dept;
+    private String user_name;
+
+    public String getUser_name() {
+        return user_name;
+    }
+
+    public void setUser_name(String user_name) {
+        this.user_name = user_name;
+    }
 
     //为layui添加字段
     private String dept_name;
@@ -68,6 +77,13 @@ public class Teacher {
     }
 
     public Teacher() {
+    }
+
+    public Teacher(String user_id, String t_name, String sex, String dept_id) {
+        this.user_id = user_id;
+        this.t_name = t_name;
+        this.sex = sex;
+        this.dept_id = dept_id;
     }
 
     public Teacher(Integer t_id, String t_name, String sex, String dept_id) {

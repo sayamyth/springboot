@@ -42,12 +42,12 @@
             table = layui.table;
         table.render({
             elem: document.getElementById('currentTableId'),
-            url: '/deptListWithPage',
+            url: '/courseListWithPage',
             cols: [[
                 {type: "checkbox", width: 50, fixed: "left"},
                 {type: 'numbers', title: '序号', sort: true, width:50},
-                {field: 'd_id', title: 'Id'},
-                {field: 'd_name', title: '部门名称'},
+                {field: 'co_id', title: 'Id'},
+                {field: 'co_name', title: '课程名称'},
 
                 {title: '操作', minWidth: 50, templet: '#currentTableBar', fixed: "right", align: "center"}
             ]],
@@ -84,7 +84,7 @@
         $(".data-add-btn").on("click", function () {
             layer.open({
                 type:2,
-                content:"/toDeptAdd",
+                content:"/tcCourseAdd",
                 maxmin:true,
                 area:['500px','500px'],
                 end: function () {//无论是确认还是取消，只要层被销毁了，end都会执行，不携带任何参数。layer.open关闭事件
@@ -106,15 +106,15 @@
                         var id = [];
                         if (data.length > 0) {
                             for (var i = 0; i < data.length; i++) {
-                                id += data[i].d_id + ',';
+                                id += data[i].co_id + ',';
                             }
                             console.log(id);
                             $.ajax({
                                 type: "post",
-                                url: '/deptDeleteMany',
+                                url: '/deleteAllStudent',
                                 data: {"id": id},
                                 success: function (data) {
-                                    layer.msg(data.extend.msg);
+                                    layer.msg('删除成功');
                                     setTimeout(function () {
                                         location.reload();
                                     }, 700);
@@ -140,7 +140,7 @@
 
                 layer.open({
                     type:2,
-                    content:"/deptGetById?id="+data.d_id,
+                    content:"/courseGetById?id="+data.co_id,
                     maxmin:true,
                     area:['500px','500px'],
                     end: function () {//无论是确认还是取消，只要层被销毁了，end都会执行，不携带任何参数。layer.open关闭事件
@@ -152,8 +152,8 @@
                     if (index){
                         $.ajax({
                             type:"post",
-                            url:"/deptDelete",
-                            data:{"id":data.d_id},
+                            url:"/courseDelete",
+                            data:{"id":data.co_id},
                             success:function (data) {
                                 // obj.del();
                                 layer.alert(data.extend.msg);

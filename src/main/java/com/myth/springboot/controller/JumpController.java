@@ -16,19 +16,16 @@ public class JumpController {
         return "aaa";
     }
 
-    @RequestMapping("/studentUpdata")
-    public String studentUpdata(){
-        return "student-update";
-    }
 
 
+    //
     @RequestMapping("/toStudentList")
     public String toStudentList(){
-        return "student-list";
+        return "student/student-list";
     }
     @RequestMapping("/toStudentAdd")
     public String toStudentAdd(){
-        return "student-add";
+        return "student/student-add";
     }
 
     @RequestMapping("/test")
@@ -36,42 +33,62 @@ public class JumpController {
         ModelAndView mv = new ModelAndView("login");
         return mv;
     }
+    //
     @RequestMapping("/toTeacherList")
     public String toTeacherList(){
-        return "teacher-list";
+        return "teacher/teacher-list";
     }
-
+    @RequestMapping("/toTeacherAdd")
+    public String toTeacherAdd(){
+        return "teacher/teacher-add";
+    }
     @RequestMapping("/toWelcome")
     public String toWelcome(){
         return "welcome";
     }
 
+
+    //
     @RequestMapping("/toClassList")
     public String toClassList(){
-        return "class-list";
+        return "class/class-list";
     }
 
     @RequestMapping("/toClassAdd")
     public String toClassAdd(){
-        return "class-add";
+        return "class/class-add";
     }
-    @RequestMapping("/tcCourseList")
-    public String tcCourseList(){
-        return "course-list";
-    }
+
+
+    //
     @RequestMapping("/toClassCourseList")
     public String toClassCourseList(){
         return "class-course-list";
     }
 
+    //
+    @RequestMapping("/tcCourseList")
+    public String tcCourseList(){
+        return "course/course-list";
+    }
+    @RequestMapping("/tcCourseAdd")
+    public String tcCourseAdd(){
+        return "course/course-add";
+    }
+
+
+    //
     @RequestMapping("/toDeptList")
     public String toDeptList(){
-        return "dept-list";
+        return "dept/dept-list";
     }
     @RequestMapping("toDeptAdd")
     public String toDeptAdd(){
-        return "dept-add";
+        return "dept/dept-add";
     }
+
+
+    //
 
     @RequestMapping("/toUserList")
     public String toUserList(){

@@ -9,12 +9,17 @@ import java.util.List;
 
 @Mapper
 public interface StudentMapper {
+
+    int studentInsert(Student student);
     //查询学生集合可以附带条件
     List<Student> studentSelect(Student student);
     //更新学生
     int studentUpdateById(Student student);
     //删除学生
     int studentDeleteById(Student student);
+
+
+    int studentDeleteByUserId(Student student);
 
 
 

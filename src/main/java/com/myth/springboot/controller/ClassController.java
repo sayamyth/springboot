@@ -10,10 +10,8 @@ import com.myth.springboot.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
-import org.thymeleaf.standard.expression.Each;
 
 import java.util.HashMap;
 import java.util.List;
@@ -56,7 +54,7 @@ public class ClassController {
     @RequestMapping("/classGetById")
     @ResponseBody
     public ModelAndView classGetById(String id) {
-        ModelAndView mv = new ModelAndView("class-update");
+        ModelAndView mv = new ModelAndView("class/class-update");
         Integer c_id = Integer.valueOf(id).intValue();
         Class cla = new Class();
         cla.setC_id(c_id);
@@ -87,10 +85,17 @@ public class ClassController {
     @RequestMapping("/classUpdate")
     @ResponseBody
     public Msg classUpdate(String id, String name) {
+        List<Class> cl = classService.classSelect(new Class());
+        for (Class c : cl) {
+            if (c.getC_name().equals(name)) {
+                return Msg.success().add("msg", "添加班级信息失败，班级重复了！！！");
+            }
+        }
         System.out.println(id + "......" + name);
         Integer c_id = Integer.valueOf(id).intValue();
         String c_name = name;
         Class cla = new Class(c_id, c_name);
+
         int i = classService.classUpdateById(cla);
         if (i > 0) {
             return Msg.success().add("msg", "修改成功,老弟！");

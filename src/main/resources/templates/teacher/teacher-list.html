@@ -47,6 +47,7 @@
                 {type: "checkbox", width: 50, fixed: "left"},
                 {type: 'numbers', title: '序号', sort: true, width:50},
                 {field: 't_name', title: '姓名'},
+                {field: 'user_name', title: '工号'},
                 {field: 'sex', title: '性别'},
                 {field: 'dept_name', title: '院系'},
                 {title: '操作', minWidth: 50, templet: '#currentTableBar', fixed: "right", align: "center"}
@@ -84,7 +85,7 @@
         $(".data-add-btn").on("click", function () {
             layer.open({
                 type:2,
-                content:"/addStudent",
+                content:"/toTeacherAdd",
                 maxmin:true,
                 area:['500px','500px'],
                 end: function () {//无论是确认还是取消，只要层被销毁了，end都会执行，不携带任何参数。layer.open关闭事件
@@ -111,13 +112,13 @@
                             console.log(id);
                             $.ajax({
                                 type: "post",
-                                url: '/studentDeleteMany',
+                                url: '/teacherDeleteMany',
                                 data: {"id": id},
                                 success: function (data) {
                                     layer.alert(data.extend.msg);
-                                    // setTimeout(function () {
-                                    //     location.reload();
-                                    // }, 2000);
+                                    setTimeout(function () {
+                                        location.reload();
+                                    }, 2000);
                                     // layer.close(index);
                                 }
 
@@ -158,7 +159,7 @@
                     if (index){
                         $.ajax({
                             type:"post",
-                            url:"/teacherUpdate",
+                            url:"/teacherDelete",
                             data:{"id":data.t_id},
                             success:function (data) {
                                 // obj.del();

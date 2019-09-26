@@ -3,19 +3,15 @@ package com.myth.springboot.controller;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.myth.springboot.entity.*;
-import com.myth.springboot.entity.Class;
-import com.myth.springboot.service.ClassService;
 import com.myth.springboot.service.CourseService;
 import com.myth.springboot.service.StudentService;
 import com.myth.springboot.service.TeacherService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.xml.transform.Source;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -34,7 +30,24 @@ public class CourseController {
     /*
         得到所有class信息
      */
-
+    @RequestMapping("/courseAdd")
+    @ResponseBody
+    public Msg courseInsert(String name){
+        Course course = new Course();
+        course.setCo_name(name);
+        int i = courseService.courseInsert(course);
+        List<Course> c = courseService.courseSelect(new Course());
+        for (Course cc:c){
+            if (cc.getCo_name().equals(name)){
+                return Msg.success().add("msg","已有该课程！！！");
+            }
+        }
+        if (i>0){
+            return Msg.success().add("msg","课程新增成功");
+        }else {
+            return Msg.success().add("msg","课程新增失败");
+        }
+    }
 
     @RequestMapping("/courseListWithPage")
     @ResponseBody
@@ -57,7 +70,7 @@ public class CourseController {
     @RequestMapping("/courseGetById")
     @ResponseBody
     public ModelAndView classGetById(String id){
-        ModelAndView mv = new ModelAndView("course-update");
+        ModelAndView mv = new ModelAndView("course/course-update");
         Integer co_id= Integer.valueOf(id).intValue();
         Course course = new Course();
         course.setCo_id(co_id);
@@ -82,8 +95,14 @@ public class CourseController {
     @RequestMapping("/courseDelete")
     @ResponseBody
     public Msg classDelete(String id){
-        Teacher teacher= new Teacher();
+        Course course = new Course();
+        course.setCo_id(Integer.valueOf(id).intValue());
+        int i = courseService.courseDeleteById(course);
+        if (i>0){
+            return Msg.success().add("msg","删除课程成功");
+        }else {
+            return Msg.success().add("msg","删除课程失败");
+        }
 
-        return Msg.success();
     }
 }

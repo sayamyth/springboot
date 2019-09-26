@@ -13,6 +13,9 @@ import java.util.List;
 public class StudentService {
     @Autowired
     StudentMapper mapper;
+    public int studentInsert(Student student){
+       return mapper.studentInsert(student);
+    }
     //查询用户带上可以附带条件
     public List<Student> studentSelect(Student student){
         return mapper.studentSelect(student);
@@ -22,6 +25,9 @@ public class StudentService {
     }
     public int studentDeleteById(Student student){
         return mapper.studentDeleteById(student);
+    }
+    public int studentDeleteByUserId(Student student){
+        return mapper.studentDeleteByUserId(student);
     }
 
 }

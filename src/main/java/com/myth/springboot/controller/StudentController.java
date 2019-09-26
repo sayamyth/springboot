@@ -4,16 +4,15 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.myth.springboot.entity.Msg;
 import com.myth.springboot.entity.Student;
-import com.myth.springboot.entity.User;
 import com.myth.springboot.service.StudentService;
 import com.myth.springboot.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.websocket.server.PathParam;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -30,19 +29,32 @@ public class StudentController {
      *
      * @return
      */
+
+    @RequestMapping("/studentAdd")
+    @ResponseBody
+    public Msg studentAdd(@PathParam("user_id") String user_id,@PathParam("name") String name, @PathParam("sex")String sex, @PathParam("c_name")String c_name, @PathParam("d_name")String d_name){
+        System.out.println(user_id+name+sex+c_name+d_name);
+        String c_id;
+        String d_id;
+        String str[] = c_name.split("-");
+
+        String str1[] = d_name.split("-");
+        c_id = str[0];
+        d_id = str1[0];
+        Student student = new Student(user_id,name,sex,c_id,d_id);
+        int i = studentService.studentInsert(student);
+        if (i>0){
+           return Msg.success().add("msg","添加学生详情成功");
+        }else {
+           return Msg.success().add("msg","添加学生详情成功");
+        }
+    }
     @RequestMapping("/studentList")
     @ResponseBody
     public Msg studentList() {
         Student s = new Student();
         List<Student> students = studentService.studentSelect(s);
         //mv.addObject("students", student);
-
-
-
-
-
-
-
         return Msg.success().add("student", students);
     }
     @RequestMapping("/studentListWithPage")
@@ -52,8 +64,16 @@ public class StudentController {
         Student s = new Student();
         List<Student> student = studentService.studentSelect(s);
         for (int i = 0;i<student.size();i++){
-            student.get(i).setClass_name(student.get(i).getCla().getC_name());
-            student.get(i).setDept_name(student.get(i).getDept().getD_name());
+            if (student.get(i).getCla()==null){
+                student.get(i).setClass_name("");
+            }else {
+                student.get(i).setClass_name(student.get(i).getCla().getC_name());
+            }
+            if (student.get(i).getDept()==null){
+                student.get(i).setDept_name("");
+            }else {
+                student.get(i).setDept_name(student.get(i).getDept().getD_name());
+            }
         }
         PageInfo pageInfo = new PageInfo(student, 5);
         //mv.addObject("students", student);
@@ -72,7 +92,7 @@ public class StudentController {
      */
     @RequestMapping("/studentGetById")
     public ModelAndView studentGetById(String id) {
-        ModelAndView mv = new ModelAndView("student-update");
+        ModelAndView mv = new ModelAndView("student/student-update");
         Student s = new Student();
         int s_id = Integer.valueOf(id).intValue();
         s.setS_id(s_id);

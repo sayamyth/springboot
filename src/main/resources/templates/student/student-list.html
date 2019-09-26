@@ -42,13 +42,16 @@
             table = layui.table;
         table.render({
             elem: document.getElementById('currentTableId'),
-            url: '/courseListWithPage',
+            url: '/studentListWithPage',
             cols: [[
                 {type: "checkbox", width: 50, fixed: "left"},
                 {type: 'numbers', title: '序号', sort: true, width:50},
-                {field: 'co_id', title: 'Id'},
-                {field: 'co_name', title: '课程名称'},
-
+                {field: 's_name', title: '姓名'},
+                {field: 'user_name', title: '学号'},
+                {field: 'sex', title: '性别'},
+                {field: 'class_name',title: '班级'},
+                {field: 's_id', title: '学号',hide:true},
+                {field: 'dept_name', title: '院系'},
                 {title: '操作', minWidth: 50, templet: '#currentTableBar', fixed: "right", align: "center"}
             ]],
             page:true,
@@ -62,6 +65,7 @@
                     "data": res.data.list //解析数据列表
                 }
             }
+
         });
         // 监听搜索操作
         form.on('submit(data-search-btn)', function (data) {
@@ -84,7 +88,7 @@
         $(".data-add-btn").on("click", function () {
             layer.open({
                 type:2,
-                content:"/addStudent",
+                content:"/toStudentAdd",
                 maxmin:true,
                 area:['500px','500px'],
                 end: function () {//无论是确认还是取消，只要层被销毁了，end都会执行，不携带任何参数。layer.open关闭事件
@@ -106,21 +110,23 @@
                         var id = [];
                         if (data.length > 0) {
                             for (var i = 0; i < data.length; i++) {
-                                id += data[i].id + ',';
+                                id += data[i].s_id + ',';
                             }
                             console.log(id);
                             $.ajax({
                                 type: "post",
-                                url: '/deleteAllStudent',
+                                url: '/studentDeleteMany',
                                 data: {"id": id},
                                 success: function (data) {
-                                    layer.msg('删除成功');
-                                    setTimeout(function () {
-                                        location.reload();
-                                    }, 700);
+                                    layer.alert(data.extend.msg);
+                                    // setTimeout(function () {
+                                    //     location.reload();
+                                    // }, 2000);
                                     // layer.close(index);
                                 }
+
                             });
+                            return false;
                         }
                         ;
                     } else {
@@ -137,10 +143,14 @@
             var data = obj.data;
             console.log(data);
             if (obj.event === 'edit') {
-
+                // layer.open({
+                //     type:2,
+                //     content:'https://www.layui.com/admin/std/dist/views/user/user/userform.html',
+                //     area: ['500px', '300px']
+                // })
                 layer.open({
                     type:2,
-                    content:"/courseGetById?id="+data.co_id,
+                    content:"/studentGetById?id="+data.s_id,
                     maxmin:true,
                     area:['500px','500px'],
                     end: function () {//无论是确认还是取消，只要层被销毁了，end都会执行，不携带任何参数。layer.open关闭事件
@@ -152,8 +162,8 @@
                     if (index){
                         $.ajax({
                             type:"post",
-                            url:"/courseUpdate",
-                            data:{"id":data.id},
+                            url:"/studentDelete",
+                            data:{"id":data.s_id},
                             success:function (data) {
                                 // obj.del();
                                 layer.alert(data.extend.msg);

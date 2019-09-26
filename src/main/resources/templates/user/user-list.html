@@ -161,8 +161,8 @@
                     if (index){
                         $.ajax({
                             type:"post",
-                            url:"/classDelete",
-                            data:{"id":data.id},
+                            url:"/userDelete",
+                            data:{"id":data.id,"type_id":data.type_id},
                             success:function (data) {
                                 // obj.del();
                                 layer.alert(data.extend.msg);
@@ -174,6 +174,7 @@
                     }else {
                         layer.close(index);
                     }
+                    return false;
                 });
             }
         });
