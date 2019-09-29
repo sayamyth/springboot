@@ -27,6 +27,9 @@
             <if test="dept_id != null">
                 class.dept_id=#{dept_id}
             </if>
+            <if test="c_name != null">
+                class.c_name=#{c_name}
+            </if>
         </where>
     </select>
     <select id="classSelectWithPage" parameterType="com.myth.springboot.entity.Class"

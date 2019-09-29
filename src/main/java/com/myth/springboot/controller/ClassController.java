@@ -50,6 +50,15 @@ public class ClassController {
 
         return Msg.success().add("cla", cla);
     }
+    @RequestMapping("/classListByName")
+    @ResponseBody
+    public Msg classListByName(String class_name) {
+        Class c = new Class();
+        c.setC_name(class_name);
+        List<Class> cla = classService.classSelect(c);
+
+        return Msg.success().add("cla", cla.get(0));
+    }
 
     @RequestMapping("/classGetById")
     @ResponseBody

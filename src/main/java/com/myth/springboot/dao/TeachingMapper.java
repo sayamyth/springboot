@@ -9,6 +9,8 @@ import java.util.List;
 
 @Mapper
 public interface TeachingMapper {
-
+    int teachingInsert(Teaching teaching);
+    List<Teaching> teachingSelect(Teaching teaching);
+    int teachingDelete(Teaching teaching);
 
 }

@@ -31,6 +31,22 @@ public class TeacherController {
      * 教师业务
      */
 
+
+
+
+    @RequestMapping("/teacherSelectByDeptId")
+    @ResponseBody
+    public Map teacherSelectByDeptId(String dept_id){
+        Teacher teacher = new Teacher();
+
+        teacher.setDept_id(dept_id);
+        List<Teacher> t = teacherService.teacherSelect(teacher);
+        Map<String,Object> map = new HashMap<>();
+        map.put("teacher",t);
+        return map;
+    }
+
+
     @RequestMapping("/teacherAdd")
     @ResponseBody
     public Msg teacherAdd(@PathParam("user_id") String user_id, @PathParam("t_name")String t_name, @PathParam("sex")String sex, @PathParam("d_id")String d_id){

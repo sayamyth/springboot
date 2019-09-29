@@ -111,4 +111,8 @@ public class JumpController {
     public String toTeachingList(){
         return "teaching/teaching-list";
     }
+    @RequestMapping("/toTeachingAdd")
+    public String toTeachingAdd(){
+        return "teaching/teaching-add";
+    }
 }
