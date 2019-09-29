@@ -11,7 +11,7 @@
     <select id="teachingSelect" parameterType="com.myth.springboot.entity.Teaching">
         select * from teaching
         <where>
-            <if test="class_name!=null">
+            <if test="class_name!=null" >
                 class_name = #{class_name}
             </if>
         </where>
