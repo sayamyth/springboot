@@ -79,6 +79,10 @@ public class Teacher {
     public Teacher() {
     }
 
+    public Teacher(String user_id) {
+        this.user_id = user_id;
+    }
+
     public Teacher(String user_id, String t_name, String sex, String dept_id) {
         this.user_id = user_id;
         this.t_name = t_name;

@@ -3,7 +3,9 @@ package com.myth.springboot.controller;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.myth.springboot.entity.Msg;
+import com.myth.springboot.entity.Student;
 import com.myth.springboot.entity.Teacher;
+import com.myth.springboot.entity.User;
 import com.myth.springboot.service.TeacherService;
 import com.myth.springboot.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +23,9 @@ import java.util.Map;
 public class TeacherController {
     @Autowired
     TeacherService teacherService;
+    @Autowired
     UserService userService;
+
 
     /**
      * 教师业务
@@ -29,17 +33,21 @@ public class TeacherController {
 
     @RequestMapping("/teacherAdd")
     @ResponseBody
-    public Msg teacherAdd(@PathParam("user_id") String user_id, @PathParam("t_name")String t_name, @PathParam("sex")String sex, @PathParam("d_name")String d_name){
-        String str[]=d_name.split("-");
-        String dept_id=str[0];
-        Teacher teacher = new Teacher(user_id,t_name,sex,dept_id);
+    public Msg teacherAdd(@PathParam("user_id") String user_id, @PathParam("t_name")String t_name, @PathParam("sex")String sex, @PathParam("d_id")String d_id){
 
-        List<Teacher> t=teacherService.teacherSelect(new Teacher());
-        for (Teacher tt:t){
-            if (tt.getUser_id().equals(user_id)){
-                return Msg.success().add("msg","已有该教师信息！！！");
-            }
+
+        List<User> users = userService.userSelect(new User(Integer.valueOf(user_id).intValue()));
+        if (users.isEmpty()) {
+            return Msg.success().add("msg", "无此用户！");
         }
+
+
+
+        List<Teacher> t=teacherService.teacherSelect(new Teacher(user_id));
+        if (!t.isEmpty()){
+                return Msg.success().add("msg","已有该教师信息！！！");
+        }
+        Teacher teacher = new Teacher(user_id,t_name,sex,d_id);
         int i= teacherService.teacherAdd(teacher);
         if (i>0){
             return Msg.success().add("msg","教师信息添加成功！！！");
@@ -55,13 +63,7 @@ public class TeacherController {
         PageHelper.startPage(Integer.valueOf(page).intValue(), Integer.valueOf(limit).intValue());
         Teacher t=new Teacher();
         List<Teacher> teacher = teacherService.teacherSelect(t);
-        for (int i = 0;i<teacher.size();i++){
-            if (teacher.get(i).getDept()==null){
-                teacher.get(i).setDept_name("");
-            }else {
-                teacher.get(i).setDept_name(teacher.get(i).getDept().getD_name());
-            }
-        }
+
         PageInfo pageInfo = new PageInfo(teacher,5);
         Map<String,Object> map = new HashMap<>();
         map.put("data",pageInfo);
@@ -82,12 +84,10 @@ public class TeacherController {
     }
     @RequestMapping("/teacherUpdate")
     @ResponseBody
-    public Msg teacherUpdate(String id,String name,String sex,String d_name){
+    public Msg teacherUpdate(String id,String name,String sex,String d_id){
         Integer t_id=Integer.valueOf(id).intValue();
-        String dept_id;
-        String arr[] = d_name.split("-");
-        dept_id=arr[0];
-        Teacher teacher = new Teacher(t_id,name,sex,dept_id);
+
+        Teacher teacher = new Teacher(t_id,name,sex,d_id);
         int i=teacherService.teacherUpdate(teacher);
         if (i>0){
             return Msg.success().add("msg","修改成功");

@@ -1,33 +1,35 @@
 package com.myth.springboot.entity;
 
 public class User {
-    private Integer id;
-    private String name;
-    private String password;
+    private Integer u_id;
+    private String u_name;
+    private String u_password;
     private String type_id;
+    private Type type;
+    private String type_name;
 
-    public Integer getId() {
-        return id;
+    public Integer getU_id() {
+        return u_id;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setU_id(Integer u_id) {
+        this.u_id = u_id;
     }
 
-    public String getName() {
-        return name;
+    public String getU_name() {
+        return u_name;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setU_name(String u_name) {
+        this.u_name = u_name;
     }
 
-    public String getPassword() {
-        return password;
+    public String getU_password() {
+        return u_password;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public void setU_password(String u_password) {
+        this.u_password = u_password;
     }
 
     public String getType_id() {
@@ -38,29 +40,44 @@ public class User {
         this.type_id = type_id;
     }
 
+    public Type getType() {
+        return type;
+    }
+
+    public void setType(Type type) {
+        this.type = type;
+    }
+
+    public String getType_name() {
+        return type_name;
+    }
+
+    public void setType_name(String type_name) {
+        this.type_name = type_name;
+    }
+
+
+//
+
     public User() {
     }
 
-    public User(Integer id, String name, String password, String type_id) {
-        this.id = id;
-        this.name = name;
-        this.password = password;
+    //
+
+    public User(Integer u_id) {
+        this.u_id = u_id;
+    }
+
+    public User(Integer u_id, String u_name, String u_password, String type_id) {
+        this.u_id = u_id;
+        this.u_name = u_name;
+        this.u_password = u_password;
         this.type_id = type_id;
     }
 
-    public User(String name, String password, String type_id) {
-        this.name = name;
-        this.password = password;
+    public User(String u_name, String u_password, String type_id) {
+        this.u_name = u_name;
+        this.u_password = u_password;
         this.type_id = type_id;
-    }
-
-    @Override
-    public String toString() {
-        return "User{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", password='" + password + '\'' +
-                ", type_id='" + type_id + '\'' +
-                '}';
     }
 }

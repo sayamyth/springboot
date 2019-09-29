@@ -5,7 +5,7 @@
 
 <!--    添加学生信息-->
     <insert id="studentInsert" parameterType="com.myth.springboot.entity.Student">
-        insert into student values (null,#{user_id},#{s_name},#{sex},#{class_id},#{dept_id})
+        insert into student values (null,#{user_id},#{s_name},#{sex},#{class_id})
     </insert>
     <!--    查询学生详细信息，可以附带条件，id，name都可以-->
     <resultMap id="sas" type="com.myth.springboot.entity.Student">
@@ -14,12 +14,9 @@
         <result property="s_name" column="s_name"></result>
         <result property="sex" column="sex"></result>
         <result property="class_id" column="class_id"></result>
-        <result property="dept_id" column="dept_id"></result>
-        <result property="user_name" column="name"></result>
-        <association property="dept" javaType="com.myth.springboot.entity.Dept">
-            <id property="d_id" column="d_id"></id>
-            <result property="d_name" column="d_name"></result>
-        </association>
+        <result property="dept_name" column="d_name"></result>
+        <result property="user_name" column="u_name"></result>
+        <result property="class_name" column="c_name"></result>
         <association property="cla" javaType="com.myth.springboot.entity.Class">
             <id property="c_id" column="c_id"></id>
             <result property="c_name" column="c_name"></result>
@@ -27,17 +24,14 @@
     </resultMap>
     <select id="studentSelect" parameterType="com.myth.springboot.entity.Student" resultMap="sas">
         select * from student left outer join class on student.class_id=class.c_id
-        LEFT OUTER JOIN dept on student.dept_id=dept.d_id
-        left outer join user on student.user_id=user.id
+        left outer join user on student.user_id=user.u_id
+        left outer join dept on class.dept_id=dept.d_id
         <where>
             <if test="s_id != null">
                  student.s_id=#{s_id}
             </if>
             <if test="s_name != null">
                 student.s_name like %#{s_name}%
-            </if>
-            <if test="dept_id != null">
-                student.dept_id = #{dept_id}
             </if>
             <if test="class_id != null">
                 student.class_id = #{class_id}
@@ -49,7 +43,7 @@
     </select>
     <!--    更新学生信息-->
     <update id="studentUpdateById" parameterType="com.myth.springboot.entity.Student">
-        update student set s_name=#{s_name},sex=#{sex},class_id=#{class_id},dept_id=#{dept_id}
+        update student set s_name=#{s_name},sex=#{sex},class_id=#{class_id}
         where s_id=#{s_id}
     </update>
     <!--    删除学生-->

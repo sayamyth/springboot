@@ -3,6 +3,7 @@ package com.myth.springboot.controller;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.myth.springboot.entity.Class;
 import com.myth.springboot.entity.Dept;
 import com.myth.springboot.entity.Msg;
 import com.myth.springboot.entity.Student;
@@ -28,7 +29,8 @@ public class DeptController {
     StudentService studentService;
     @Autowired
     TeacherService teacherService;
-
+    @Autowired
+    ClassService classService;
     /**
      *院系业务
      */
@@ -105,11 +107,9 @@ public class DeptController {
     @ResponseBody
     public Msg deptDelete(String id){
         Dept dept_id = new Dept(Integer.valueOf(id).intValue());
-        Student student=new Student();
-        student.setDept_id(id);
-        List<Student> students = studentService.studentSelect(student);
+        Class cla = new Class(id);
 
-        if (students.isEmpty()){
+        if (classService.classSelect(cla).isEmpty()){
             Teacher teacher = new Teacher();
             teacher.setDept_id(id);
             List<Teacher> teachers = teacherService.teacherSelect(teacher);
@@ -118,13 +118,13 @@ public class DeptController {
                 if (i>0){
                     return Msg.success().add("msg","删除成功,老弟！");
                 }else {
-                    return Msg.success().add("msg","出错了，老弟！");
+                    return Msg.success().add("msg","出错了，无法删除！");
                 }
             }else {
-                return Msg.success().add("msg","存在教师关联，老弟！");
+                return Msg.success().add("msg","存在教师关联，无法删除！");
             }
         }else {
-            return Msg.success().add("msg","存在学生关联，老弟！");
+            return Msg.success().add("msg","存在班级关联，无法删除！");
         }
     }
 
@@ -139,10 +139,9 @@ public class DeptController {
 
         for (int i = 0;i<str.length;i++){
             Dept dept_id = new Dept(Integer.valueOf(str[i]).intValue());
-            Student student=new Student();
-            student.setDept_id(str[i]);
-            List<Student> students = studentService.studentSelect(student);
-            if (students.isEmpty()){
+            Class cla = new Class(str[i]);
+            List<Class> clas = classService.classSelect(cla);
+            if (clas.isEmpty()){
                 Teacher teacher = new Teacher();
                 teacher.setDept_id(str[i]);
                 List<Teacher> teachers = teacherService.teacherSelect(teacher);
@@ -155,7 +154,7 @@ public class DeptController {
                     s+=str[i]+"存在教师关联，删除失败";
                 }
             }else {
-                s+=str[i]+"存在学生关联，删除失败";
+                s+=str[i]+"存在班级关联，删除失败";
             }
         }
         return Msg.success().add("msg",s);

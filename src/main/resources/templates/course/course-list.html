@@ -111,10 +111,10 @@
                             console.log(id);
                             $.ajax({
                                 type: "post",
-                                url: '/deleteAllStudent',
+                                url: '/courseDeleteMany',
                                 data: {"id": id},
                                 success: function (data) {
-                                    layer.msg('删除成功');
+                                    layer.msg(data.extend.msg);
                                     setTimeout(function () {
                                         location.reload();
                                     }, 700);

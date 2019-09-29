@@ -60,11 +60,7 @@ public class JumpController {
     }
 
 
-    //
-    @RequestMapping("/toClassCourseList")
-    public String toClassCourseList(){
-        return "class-course-list";
-    }
+
 
     //
     @RequestMapping("/tcCourseList")
@@ -99,4 +95,20 @@ public class JumpController {
         return "user/user-add";
     }
 
+
+    //
+    @RequestMapping("/toTypeList")
+    public String toTypeList(){
+        return "type/type-list";
+    }
+    @RequestMapping("/toTypeAdd")
+    public String toTypeAdd(){
+        return "type/type-add";
+    }
+
+    //
+    @RequestMapping("/toTeachingList")
+    public String toTeachingList(){
+        return "teaching/teaching-list";
+    }
 }

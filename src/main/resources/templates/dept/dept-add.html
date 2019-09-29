@@ -19,12 +19,21 @@
     <script src="/lib/jquery-3.4.1/jquery-3.4.1.min.js" charset="utf-8"></script>
 </head>
 <body>
-<form>
-    <input class="a" value="111" type="button">
-    <input type="text" name="name">
-    <input type="button" value="提交"  class="b">
+<form class="layui-form">
+    <div class="layui-form-item">
+        <label class="layui-form-label">部门名称</label>
+        <div class="layui-input-inline">
+            <input type="text" name="name" required lay-verify="required" placeholder="请输入班级名称" autocomplete="off" class="layui-input">
+        </div>
+        <div class="layui-form-mid layui-word-aux">不能添加已有的部门哦</div>
+    </div>
+    <div class="layui-form-item">
+        <div class="layui-input-block">
+            <button class="layui-btn sub" lay-submit lay-filter="formDemo">立即提交</button>
+            <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+        </div>
+    </div>
 </form>
-
 
 <script type="text/javascript" th:inline="none">
     layui.use(['element', 'layer', 'layuimini'], function () {
@@ -32,7 +41,7 @@
             element = layui.element,
             layer = layui.layer;
         // layer.alert(222);
-        $(".b").on("click",function () {
+        $(".sub").on("click",function () {
             var data = $("form").serialize();
             $.ajax({
                 url:"/deptAdd",
@@ -53,6 +62,7 @@
                     },2000)
                 }
             })
+            return false;
         })
 
 

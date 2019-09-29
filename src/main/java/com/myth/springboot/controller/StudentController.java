@@ -4,6 +4,7 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.myth.springboot.entity.Msg;
 import com.myth.springboot.entity.Student;
+import com.myth.springboot.entity.User;
 import com.myth.springboot.service.StudentService;
 import com.myth.springboot.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,23 +33,32 @@ public class StudentController {
 
     @RequestMapping("/studentAdd")
     @ResponseBody
-    public Msg studentAdd(@PathParam("user_id") String user_id,@PathParam("name") String name, @PathParam("sex")String sex, @PathParam("c_name")String c_name, @PathParam("d_name")String d_name){
-        System.out.println(user_id+name+sex+c_name+d_name);
-        String c_id;
-        String d_id;
-        String str[] = c_name.split("-");
+    public Msg studentAdd(@PathParam("user_id") String user_id, @PathParam("name") String name, @PathParam("sex") String sex, @PathParam("c_id") String c_id) {
 
-        String str1[] = d_name.split("-");
-        c_id = str[0];
-        d_id = str1[0];
-        Student student = new Student(user_id,name,sex,c_id,d_id);
-        int i = studentService.studentInsert(student);
-        if (i>0){
-           return Msg.success().add("msg","添加学生详情成功");
-        }else {
-           return Msg.success().add("msg","添加学生详情成功");
+        List<Student> students = studentService.studentSelect(new Student(user_id));
+
+        if (!students.isEmpty()) {
+            return Msg.success().add("msg", "该生信息已存在！！！");
         }
+
+        List<User> users = userService.userSelect(new User(Integer.valueOf(user_id).intValue()));
+        if (users.isEmpty()) {
+            return Msg.success().add("msg", "无此用户！");
+        }
+        if (users.get(0).getType_id().equals("3")) {
+            Student student = new Student(user_id, name, sex, c_id);
+            int i = studentService.studentInsert(student);
+            if (i > 0) {
+                return Msg.success().add("msg", "添加学生详情成功");
+            } else {
+                return Msg.success().add("msg", "添加学生详情失败");
+            }
+        } else {
+            return Msg.success().add("msg", "权限和信息不匹配！");
+        }
+
     }
+
     @RequestMapping("/studentList")
     @ResponseBody
     public Msg studentList() {
@@ -57,31 +67,18 @@ public class StudentController {
         //mv.addObject("students", student);
         return Msg.success().add("student", students);
     }
+
     @RequestMapping("/studentListWithPage")
     @ResponseBody
     public Map studentList(String page, String limit) {
         PageHelper.startPage(Integer.valueOf(page).intValue(), Integer.valueOf(limit).intValue());
         Student s = new Student();
         List<Student> student = studentService.studentSelect(s);
-        for (int i = 0;i<student.size();i++){
-            if (student.get(i).getCla()==null){
-                student.get(i).setClass_name("");
-            }else {
-                student.get(i).setClass_name(student.get(i).getCla().getC_name());
-            }
-            if (student.get(i).getDept()==null){
-                student.get(i).setDept_name("");
-            }else {
-                student.get(i).setDept_name(student.get(i).getDept().getD_name());
-            }
-        }
+
         PageInfo pageInfo = new PageInfo(student, 5);
         //mv.addObject("students", student);
-        Map<String,Object> map = new HashMap<>();
-        map.put("data",pageInfo);
-
-
-
+        Map<String, Object> map = new HashMap<>();
+        map.put("data", pageInfo);
 
 
         return map;
@@ -107,20 +104,14 @@ public class StudentController {
      */
     @RequestMapping("/studentUpdate")
     @ResponseBody
-    public Msg studentUpdate(String id, String name, String sex, String c_name, String d_name) {
+    public Msg studentUpdate(String id, String name, String sex, String c_id) {
         Integer s_id = Integer.valueOf(id).intValue();
-        String c_id;
-        String d_id;
-        String str[] = c_name.split("-");
-        String str1[] = d_name.split("-");
-        c_id = str[0];
-        d_id = str1[0];
-        Student student = new Student(s_id, name, sex, c_id, d_id);
+        Student student = new Student(s_id, name, sex, c_id);
         int i = studentService.studentUpdateById(student);
         if (i > 0) {
-            return Msg.success().add("msg","学生信息修改成功");
+            return Msg.success().add("msg", "学生信息修改成功");
         } else {
-            return Msg.success().add("msg","学生信息修改失败！！！！");
+            return Msg.success().add("msg", "学生信息修改失败！！！！");
         }
     }
 
@@ -138,32 +129,33 @@ public class StudentController {
         student.setS_id(s_id);
         int i = studentService.studentDeleteById(student);
         if (i > 0) {
-            return Msg.success().add("msg","学生详情删除成功");
+            return Msg.success().add("msg", "学生详情删除成功");
         } else {
-                return Msg.success().add("msg","学生详情删除失败");
+            return Msg.success().add("msg", "学生详情删除失败");
         }
     }
+
     @RequestMapping("/studentDeleteMany")
     @ResponseBody
     public Msg studentDeleteMany(String id) {
         String str[] = id.split(",");
 
-        String s="";
+        String s = "";
 
 
-        for (int i = 0;i<str.length;i++){
+        for (int i = 0; i < str.length; i++) {
             Integer s_id = Integer.valueOf(str[i]).intValue();
             Student student = new Student();
             student.setS_id(s_id);
             int j = studentService.studentDeleteById(student);
             if (j > 0) {
-               s+=str[i]+"学生详情删除成功";
+                s += str[i] + "学生详情删除成功";
             } else {
-                s+=str[i]+"学生详情删除失败";
+                s += str[i] + "学生详情删除失败";
             }
         }
 
 
-        return Msg.success().add("msg",s);
+        return Msg.success().add("msg", s);
     }
 }

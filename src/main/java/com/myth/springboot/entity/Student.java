@@ -6,31 +6,13 @@ public class Student {
     private String s_name;
     private String sex;
     private String class_id;
-    private String dept_id;
     private Class cla;
-    private Dept dept;
+
 
     //为匹配layui设计两个字段
     private String class_name;
     private String dept_name;
     private String user_name;
-
-
-    public String getUser_name() {
-        return user_name;
-    }
-
-    public void setUser_name(String user_name) {
-        this.user_name = user_name;
-    }
-
-    public String getClass_name() {
-        return class_name;
-    }
-
-    public void setClass_name(String class_name) {
-        this.class_name = class_name;
-    }
 
     public String getDept_name() {
         return dept_name;
@@ -80,14 +62,6 @@ public class Student {
         this.class_id = class_id;
     }
 
-    public String getDept_id() {
-        return dept_id;
-    }
-
-    public void setDept_id(String dept_id) {
-        this.dept_id = dept_id;
-    }
-
     public Class getCla() {
         return cla;
     }
@@ -96,33 +70,44 @@ public class Student {
         this.cla = cla;
     }
 
-    public Dept getDept() {
-        return dept;
+
+
+    public String getClass_name() {
+        return class_name;
     }
 
-    public void setDept(Dept dept) {
-        this.dept = dept;
+    public void setClass_name(String class_name) {
+        this.class_name = class_name;
     }
 
+
+    public String getUser_name() {
+        return user_name;
+    }
+
+    public void setUser_name(String user_name) {
+        this.user_name = user_name;
+    }
 
     public Student() {
     }
 
 
+    public Student(String user_id) {
+        this.user_id = user_id;
+    }
 
-    public Student(Integer s_id, String s_name, String sex, String class_id, String dept_id) {
+    public Student(Integer s_id, String s_name, String sex, String class_id) {
         this.s_id = s_id;
         this.s_name = s_name;
         this.sex = sex;
         this.class_id = class_id;
-        this.dept_id = dept_id;
     }
 
-    public Student(String user_id, String s_name, String sex, String class_id, String dept_id) {
+    public Student(String user_id, String s_name, String sex, String class_id) {
         this.user_id = user_id;
         this.s_name = s_name;
         this.sex = sex;
         this.class_id = class_id;
-        this.dept_id = dept_id;
     }
 }

@@ -21,35 +21,52 @@
 <body>
 <div>
     <form class="layui-form">
-        <div>
+        <div class="layui-form-item">
             <label class="layui-form-label">user_id</label>
-            <div class="layui-input-block">
-                <input type="text" class="layui-input" id="user_id" name="user_id">
+            <div class="layui-input-inline">
+                <input type="text" name="user_id" required lay-verify="required" placeholder="请输入班级名称"
+                       autocomplete="off" class="layui-input">
             </div>
+            <div class="layui-form-mid layui-word-aux">不能添加已有的部门哦</div>
         </div>
-        <br>
-        <div>
+        <div class="layui-form-item">
             <label class="layui-form-label">姓名</label>
-            <div class="layui-input-block">
-                <input type="text" class="layui-input" id="name" name="name">
+            <div class="layui-input-inline">
+                <input type="text" name="name" required lay-verify="required" placeholder="请输入班级名称" autocomplete="off"
+                       class="layui-input">
             </div>
+            <div class="layui-form-mid layui-word-aux">不能添加已有的部门哦</div>
         </div>
-        <br>
-        <div>
+        <div class="layui-form-item">
             <label class="layui-form-label">性别</label>
-            <div class="layui-input-block">
+            <div class="layui-input-inline">
                 <select name="sex">
                     <option>男</option>
                     <option>女</option>
                 </select>
             </div>
+            <div class="layui-form-mid layui-word-aux">不能添加已有的部门哦</div>
         </div>
-        <br>
-        <div id="list1" name="cla"></div>
-        <br>
-        <div id="list2" name="dept"></div>
-        <br>
-        <input class="layui-btn sub" lay-submit lay-filter="*" value="提交">
+        <div class="layui-form-item">
+            <label class="layui-form-label">班级</label>
+            <div class="layui-input-inline" id="list1">
+
+            </div>
+            <div class="layui-form-mid layui-word-aux">不能添加已有的部门哦</div>
+        </div>
+<!--        <div class="layui-form-item">-->
+<!--            <label class="layui-form-label">院系</label>-->
+<!--            <div class="layui-input-inline" id="list2">-->
+
+<!--            </div>-->
+<!--            <div class="layui-form-mid layui-word-aux">不能添加已有的部门哦</div>-->
+<!--        </div>-->
+        <div class="layui-form-item">
+            <div class="layui-input-block">
+                <button class="layui-btn sub" lay-submit lay-filter="*">立即提交</button>
+                <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+            </div>
+        </div>
     </form>
 </div>
 
@@ -69,8 +86,8 @@
         //     console.log(data.value); //得到被选中的值
         //     console.log(data.othis); //得到美化后的DOM对象
         // });
-        
-        $(".sub").on("click",function () {
+
+        $(".sub").on("click", function () {
             var yes;
             form.on('submit(*)', function (data) {
                 console.log(data.elem) //被执行事件的元素DOM对象，一般为button对象
@@ -79,15 +96,16 @@
                 yes = data.field;
                 // return false; //阻止表单跳转。如果需要表单跳转，去掉这段即可。
                 $.ajax({
-                    url:"studentAdd",
-                    data:yes,
-                    success:function (res) {
+                    url: "studentAdd",
+                    data: yes,
+                    success: function (res) {
                         layer.alert(res.extend.msg);
                     },
-                    error:function () {
+                    error: function () {
                         layer.alert("出错了")
                     }
                 })
+                return false;
             });
 
 
@@ -96,23 +114,22 @@
     });
 
 
-
     $(function () {
         $.ajax({
             url: "/classList",
             success: function (result) {
-                var lable = $("<label>班级</label>").addClass("layui-form-label");
-                var div = $("<div></div>").addClass("layui-input-block");
+                // var lable = $("<label>班级</label>").addClass("layui-form-label");
+                // var div = $("<div></div>").addClass("layui-input-block");
                 var list = $("#list1").empty();
-                var select = $("<select name='c_name' lay-verify='required'></select>");
+                var select = $("<select name='c_id' lay-verify='required'></select>");
                 $.each(result.extend.cla, function (index, item) {
-                    var data = $("<option></option>").append(item.c_id + "-" + item.c_name);
+                    var data = $("<option value="+item.c_id+"></option>").append(item.c_name);
                     //alert(item.c_id+"-"+item.c_name);
                     select.append(data);
                 })
-                div.append(select)
-                $("#list1").append(lable).append(div);
-
+                // div.append(select)
+                // $("#list1").append(lable).append(div);
+                $("#list1").append(select);
 
             },
             error: function () {
@@ -122,26 +139,26 @@
 
         })
 
-        $.ajax({
-            url: "/deptList",
-            success: function (result) {
-                var lable = $("<label>院系</label>").addClass("layui-form-label");
-                var div = $("<div></div>").addClass("layui-input-block");
-                var list = $("#list2").empty();
-                var select = $("<select name='d_name' ></select>").addClass("");
-                $.each(result.extend.dept, function (index, item) {
-                    var data = $("<option></option>").append(item.d_id + "-" + item.d_name);
-
-                    select.append(data);
-                })
-                div.append(select)
-                $("#list2").append(lable).append(div);
-
-            },
-            error: function () {
-                alert("出错了");
-            }
-        })
+        // $.ajax({
+        //     url: "/deptList",
+        //     success: function (result) {
+        //         // var lable = $("<label>院系</label>").addClass("layui-form-label");
+        //         // var div = $("<div></div>").addClass("layui-input-block");
+        //         var list = $("#list2").empty();
+        //         var select = $("<select name='d_id' ></select>").addClass("");
+        //         $.each(result.extend.dept, function (index, item) {
+        //             var data = $("<option value="+item.d_id+"></option>").append(item.d_name);
+        //
+        //             select.append(data);
+        //         })
+        //         // div.append(select)
+        //         // $("#list2").append(lable).append(div);
+        //         $("#list2").append(select);
+        //     },
+        //     error: function () {
+        //         alert("出错了");
+        //     }
+        // })
     })
 </script>
 </html>

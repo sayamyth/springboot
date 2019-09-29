@@ -35,13 +35,15 @@ public class CourseController {
     public Msg courseInsert(String name){
         Course course = new Course();
         course.setCo_name(name);
-        int i = courseService.courseInsert(course);
+
         List<Course> c = courseService.courseSelect(new Course());
         for (Course cc:c){
+            System.out.println(cc.getCo_name());
             if (cc.getCo_name().equals(name)){
-                return Msg.success().add("msg","已有该课程！！！");
+                return Msg.success().add("msg","请勿重复添加课程！！！");
             }
         }
+        int i = courseService.courseInsert(course);
         if (i>0){
             return Msg.success().add("msg","课程新增成功");
         }else {
@@ -85,6 +87,13 @@ public class CourseController {
         Integer co_id=Integer.valueOf(id).intValue();
         String co_name=name;
         Course course = new Course(co_id,co_name);
+        List<Course> c = courseService.courseSelect(new Course());
+        for (Course cc:c){
+            System.out.println(cc.getCo_name());
+            if (cc.getCo_name().equals(name)){
+                return Msg.success().add("msg","已有该课程，请勿修改！！！");
+            }
+        }
         int i = courseService.courseUpdateById(course);
         if (i>0){
             return Msg.success().add("msg","修改成功,老弟！");
@@ -104,5 +113,23 @@ public class CourseController {
             return Msg.success().add("msg","删除课程失败");
         }
 
+    }
+    @RequestMapping("/courseDeleteMany")
+    @ResponseBody
+    public Msg courseDeleteMany(String id){
+        String str[] = id.split(",");
+        String s="";
+        for (int i=0;i<str.length;i++){
+            Course course = new Course();
+            course.setCo_id(Integer.valueOf(str[i]).intValue());
+            int j = courseService.courseDeleteById(course);
+            if (j>0){
+                s+=str[i]+"删除课程成功";
+            }else {
+                s+=str[i]+"删除课程失败";
+            }
+        }
+
+        return Msg.success().add("msg",s);
     }
 }

@@ -65,9 +65,9 @@ public class ClassController {
 
     @RequestMapping("/classAdd")
     @ResponseBody
-    public Msg classAdd(String name) {
-        Class cla = new Class();
-        cla.setC_name(name);
+    public Msg classAdd(String name,String dept_id) {
+
+        Class cla = new Class(name,dept_id);
         List<Class> cl = classService.classSelect(new Class());
         for (Class c : cl) {
             if (c.getC_name().equals(name)) {
@@ -84,17 +84,21 @@ public class ClassController {
 
     @RequestMapping("/classUpdate")
     @ResponseBody
-    public Msg classUpdate(String id, String name) {
+    public Msg classUpdate(String id, String name,String dept_id) {
+
         List<Class> cl = classService.classSelect(new Class());
+
         for (Class c : cl) {
             if (c.getC_name().equals(name)) {
-                return Msg.success().add("msg", "添加班级信息失败，班级重复了！！！");
+                   if (c.getDept_id().equals(dept_id)){
+                       return Msg.success().add("msg", "存在此信息,修改失败！");
+                   }
             }
         }
         System.out.println(id + "......" + name);
         Integer c_id = Integer.valueOf(id).intValue();
         String c_name = name;
-        Class cla = new Class(c_id, c_name);
+        Class cla = new Class(c_id, c_name,dept_id);
 
         int i = classService.classUpdateById(cla);
         if (i > 0) {

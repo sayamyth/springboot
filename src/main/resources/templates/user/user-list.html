@@ -46,10 +46,10 @@
             cols: [[
                 {type: "checkbox", width: 50, fixed: "left"},
                 {type: 'numbers', title: '序号', sort: true, width:50},
-                {field: 'id', title: 'Id'},
-                {field: 'name', title: '账号' },
-                {field: 'password', title: '密码'},
-                {field: 'type_id', title: '权限'},
+                {field: 'u_id', title: 'Id'},
+                {field: 'u_name', title: '账号' },
+                {field: 'u_password', title: '密码'},
+                {field: 'type_name', title: '权限'},
                 {title: '操作', minWidth: 50, templet: '#currentTableBar', fixed: "right", align: "center"}
             ]],
             page:true,
@@ -106,18 +106,20 @@
                         var checkStatus = table.checkStatus('currentTableId'),
                             data = checkStatus.data;
                         var id = [];
+                        var type_id = [];
                         if (data.length > 0) {
                             for (var i = 0; i < data.length; i++) {
 
-                                    id += data[i].id + ',';
+                                    id += data[i].u_id + ',';
+                                    type_id +=data[i].type_id+',';
 
 
                             }
                             console.log(id);
                             $.ajax({
                                 type: "post",
-                                url: '/classDeleteMany',
-                                data: {"id": id},
+                                url: '/userDeleteMany',
+                                data: {"id": id,"type_id":type_id},
                                 success: function (data) {
                                     layer.msg(data.extend.msg);
                                     setTimeout(function () {
@@ -132,6 +134,7 @@
                         layer.close(index);
                     }
                 });
+                return false;
             }
         });
         //监听表格复选框选择
@@ -149,7 +152,7 @@
                 // })
                 layer.open({
                     type:2,
-                    content:"/userGetById?id="+data.id,
+                    content:"/userGetById?id="+data.u_id,
                     maxmin:true,
                     area:['500px','500px'],
                     end: function () {//无论是确认还是取消，只要层被销毁了，end都会执行，不携带任何参数。layer.open关闭事件
@@ -162,7 +165,7 @@
                         $.ajax({
                             type:"post",
                             url:"/userDelete",
-                            data:{"id":data.id,"type_id":data.type_id},
+                            data:{"id":data.u_id,"type_id":data.type_id},
                             success:function (data) {
                                 // obj.del();
                                 layer.alert(data.extend.msg);
