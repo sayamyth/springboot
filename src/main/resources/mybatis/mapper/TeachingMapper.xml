@@ -18,6 +18,6 @@
     </select>
 <!--    删除-->
     <delete id="teachingDelete" parameterType="com.myth.springboot.entity.Teaching">
-        delete teaching where te_id=#{te_id}
+        delete from teaching where te_id=#{te_id}
     </delete>
 </mapper>

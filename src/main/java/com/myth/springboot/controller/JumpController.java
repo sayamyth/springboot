@@ -115,4 +115,11 @@ public class JumpController {
     public String toTeachingAdd(){
         return "teaching/teaching-add";
     }
+
+    //
+
+    @RequestMapping("/toBatchList")
+    public String toBatchList(){
+        return "batch/batch-list";
+    }
 }

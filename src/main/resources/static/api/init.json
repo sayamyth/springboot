@@ -54,22 +54,14 @@
               "href": "tcCourseList",
               "icon": "fa fa-tachometer",
               "target": "_self"
-            },
-            {
-              "title": "授课管理",
-              "href": "toTeachingList",
-              "icon": "fa fa-tachometer",
+            },{
+              "title": "部门管理",
+              "href": "toDeptList",
+              "icon": "fa fa-window-maximize",
               "target": "_self"
             }
           ]
         },
-        {
-          "title": "部门管理",
-          "href": "toDeptList",
-          "icon": "fa fa-window-maximize",
-          "target": "_self"
-        },
-
         {
           "title": "用户详情管理",
           "href": "",
@@ -91,15 +83,21 @@
           ]
         },
         {
-          "title": "其它界面",
+          "title": "评教管理",
           "href": "",
           "icon": "fa fa-snowflake-o",
           "target": "",
           "child": [
             {
-              "title": "按钮示例",
-              "href": "page/button.html",
-              "icon": "fa fa-snowflake-o",
+              "title": "批次管理",
+              "href": "toBatchList",
+              "icon": "fa fa-shield",
+              "target": "_self"
+            },
+            {
+              "title": "授课管理",
+              "href": "toTeachingList",
+              "icon": "fa fa-tachometer",
               "target": "_self"
             },
             {

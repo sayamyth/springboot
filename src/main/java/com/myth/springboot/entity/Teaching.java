@@ -50,6 +50,10 @@ public class Teaching {
     public Teaching() {
     }
 
+    public Teaching(Integer te_id) {
+        this.te_id = te_id;
+    }
+
     public Teaching(String class_name, String dept_name, String teacher_name, String course_name) {
         this.class_name = class_name;
         this.dept_name = dept_name;

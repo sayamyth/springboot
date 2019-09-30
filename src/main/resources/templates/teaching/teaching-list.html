@@ -29,7 +29,6 @@
         </div>
         <div class="layui-hide" id="currentTableId" lay-filter="currentTableFilter"> ></div>
         <script type="text/html" id="currentTableBar">
-            <a class="layui-btn layui-btn-xs data-count-edit" lay-event="edit">编辑</a>
             <a class="layui-btn layui-btn-xs layui-btn-danger data-count-delete" lay-event="delete">删除</a>
         </script>
     </div>
@@ -42,15 +41,15 @@
             table = layui.table;
         table.render({
             elem: document.getElementById('currentTableId'),
-            url: '/studentListWithPage',
+            url: '/teachingListWithPage',
             cols: [[
                 {type: "checkbox", width: 50, fixed: "left"},
                 {type: 'numbers', title: '序号', sort: true, width:50},
-                {field: 's_name', title: '班级'},
-                {field: 'user_name', title: '部门'},
-                {field: 'sex', title: '老师'},
-                {field: 'class_name',title: '课程'},
-                {field: 'te_id', title: '学号',hide:true},
+                {field: 'class_name', title: '班级'},
+                {field: 'dept_name', title: '部门'},
+                {field: 'teacher_name', title: '老师'},
+                {field: 'course_name',title: '课程'},
+                {field: 'te_id', title: 'id',hide:true},
                 {title: '操作', minWidth: 50, templet: '#currentTableBar', fixed: "right", align: "center"}
             ]],
             page:true,
@@ -109,12 +108,12 @@
                         var id = [];
                         if (data.length > 0) {
                             for (var i = 0; i < data.length; i++) {
-                                id += data[i].s_id + ',';
+                                id += data[i].te_id + ',';
                             }
                             console.log(id);
                             $.ajax({
                                 type: "post",
-                                url: '/studentDeleteMany',
+                                url: '/teachingDeleteMany',
                                 data: {"id": id},
                                 success: function (data) {
                                     layer.alert(data.extend.msg);
@@ -149,7 +148,7 @@
                 // })
                 layer.open({
                     type:2,
-                    content:"/studentGetById?id="+data.s_id,
+                    content:"",
                     maxmin:true,
                     area:['500px','500px'],
                     end: function () {//无论是确认还是取消，只要层被销毁了，end都会执行，不携带任何参数。layer.open关闭事件
@@ -161,8 +160,8 @@
                     if (index){
                         $.ajax({
                             type:"post",
-                            url:"/studentDelete",
-                            data:{"id":data.s_id},
+                            url:"/teachingDelete",
+                            data:{"id":data.te_id},
                             success:function (data) {
                                 // obj.del();
                                 layer.alert(data.extend.msg);
