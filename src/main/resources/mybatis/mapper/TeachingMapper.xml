@@ -4,7 +4,7 @@
 <mapper namespace="com.myth.springboot.dao.TeachingMapper">
 <!--    添加授课信息-->
    <insert id="teachingInsert" parameterType="com.myth.springboot.entity.Teaching">
-       insert into teaching values (null,#{class_name},#{dept_name},#{teacher_name},#{course_name},null)
+       insert into teaching values (null,#{batch_id},#{batch_name},#{class_id},#{class_name},#{dept_id},#{dept_name},#{teacher_id},#{teacher_name},#{course_id},#{course_name},0,0)
    </insert>
 
 <!--    查询-->

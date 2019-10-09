@@ -37,4 +37,10 @@
         delete from user where u_id=#{u_id}
     </delete>
 
+    <!--根据账户 查找用户-->
+    <select id="selectUserByName" parameterType="com.myth.springboot.entity.User" resultMap="us">
+        select * from user left join type on user.type_id=type.id
+        where u_name like concat('%',#{u_name},'%')
+    </select>
+
 </mapper>

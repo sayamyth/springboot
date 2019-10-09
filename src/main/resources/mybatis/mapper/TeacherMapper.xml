@@ -51,5 +51,11 @@
     <delete id="teacherDeleteByUserId" parameterType="com.myth.springboot.entity.Teacher">
         delete from teacher where user_id=#{user_id}
     </delete>
+    <!--根据姓名查找老师-->
+    <select id="selectTeacherByName" parameterType="com.myth.springboot.entity.Teacher" resultMap="tsa">
+        select * from teacher LEFT JOIN dept on teacher.dept_id = dept.d_id
+        LEFT JOIN user ON teacher.user_id=user.u_id
+        where t_name like concat('%',#{t_name},'%')
+    </select>
 
 </mapper>

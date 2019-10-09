@@ -29,5 +29,8 @@ public class StudentService {
     public int studentDeleteByUserId(Student student){
         return mapper.studentDeleteByUserId(student);
     }
+    public List<Student> selectStudentByName(String s_name){
+        return mapper.selectStudentByName(s_name);
+    }
 
 }

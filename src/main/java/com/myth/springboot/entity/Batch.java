@@ -46,6 +46,11 @@ public class Batch {
         this.b_type = b_type;
     }
 
+    public Batch(Integer b_id, String b_name) {
+        this.b_id = b_id;
+        this.b_name = b_name;
+    }
+
     public Batch(Integer b_id, String b_name, String b_type) {
         this.b_id = b_id;
         this.b_name = b_name;

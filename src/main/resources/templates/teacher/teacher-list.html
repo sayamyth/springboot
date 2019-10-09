@@ -24,6 +24,9 @@
             <button class="layui-btn data-add-btn">添加</button>
             <button class="layui-btn layui-btn-danger data-delete-btn">删除</button>
         </div>
+        <input id="input1" style="width: 200px;height: 30px;margin-left: 50px" type="text" name="tiltle" placeholder="账号查询">
+        <button id="selectTeacher" class="layui-btn layui-btn-normal">查找</button>
+
         <div class="layui-hide" id="currentTableId" lay-filter="currentTableFilter"> ></div>
         <script type="text/html" id="currentTableBar">
             <a class="layui-btn layui-btn-xs data-count-edit" lay-event="edit">编辑</a>
@@ -61,6 +64,19 @@
                 }
             }
         });
+        //条件搜索
+        $("#selectTeacher").on("click",function () {
+            var t_name = $("#input1").val();
+            table.reload('currentTableId', {
+                url:'/selectTeacherByName',
+                where: {
+                    t_name: t_name
+                },
+                page: {
+                    curr: 1 //重新从第 1 页开始
+                }
+            });
+        })
         // 监听搜索操作
         form.on('submit(data-search-btn)', function (data) {
             var result = JSON.stringify(data.field);

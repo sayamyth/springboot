@@ -4,6 +4,7 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.myth.springboot.entity.Msg;
 import com.myth.springboot.entity.Student;
+import com.myth.springboot.entity.Teacher;
 import com.myth.springboot.entity.User;
 import com.myth.springboot.service.StudentService;
 import com.myth.springboot.service.UserService;
@@ -30,6 +31,18 @@ public class StudentController {
      *
      * @return
      */
+    @RequestMapping("/selectStudentByName")
+    @ResponseBody
+    public Map selectStudentByName(String s_name){
+        PageHelper.startPage(1,10);
+        Student student=new Student();
+        student.setS_name(s_name);
+        List<Student> list=studentService.selectStudentByName(s_name);
+        PageInfo pageInfo = new PageInfo(list,5);
+        Map<String,Object> map = new HashMap<>();
+        map.put("data",pageInfo);
+        return map;
+    }
 
     @RequestMapping("/studentAdd")
     @ResponseBody

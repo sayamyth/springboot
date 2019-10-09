@@ -21,5 +21,7 @@ public interface TeacherMapper {
     int teacherDeleteByUserId(Teacher teacher);
 
     int teacherAdd(Teacher teacher);
+    //根据name查找用户
+    List<Teacher> selectTeacherByName(String t_name);
 
 }

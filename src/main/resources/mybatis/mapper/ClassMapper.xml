@@ -4,7 +4,7 @@
 <mapper namespace="com.myth.springboot.dao.ClassMapper">
 <!--    添加班级-->
     <insert id="classInsert" parameterType="com.myth.springboot.entity.Class">
-        insert into class values (null,#{c_name},#{dept_id})
+        insert into class values (null,#{c_name},#{dept_id},#{batch_id})
     </insert>
     <!--    查询班级-->
     <resultMap id="cs" type="com.myth.springboot.entity.Class">
@@ -12,6 +12,8 @@
         <result property="c_name" column="c_name"></result>
         <result property="dept_id" column="dept_id"></result>
         <result property="dept_name" column="d_name"></result>
+        <result property="batch_name" column="b_name"></result>
+        <result property="batch_id" column="b_id"></result>
         <association property="dept">
             <id property="d_id" column="d_id"></id>
             <result property="d_name" column="d_name"></result>
@@ -20,6 +22,7 @@
     <select id="classSelect" parameterType="com.myth.springboot.entity.Class"
             resultMap="cs">
         select * from class left join dept on class.dept_id=dept.d_id
+        left join batch on class.batch_id = batch.b_id
         <where>
             <if test="c_id != null">
                 class.c_id=#{c_id}
@@ -43,7 +46,7 @@
     </select>
     <!--    修改班级-->
     <update id="classUpdateById" parameterType="com.myth.springboot.entity.Class">
-        update class set c_name=#{c_name},dept_id=#{dept_id} where c_id=#{c_id}
+        update class set c_name=#{c_name},dept_id=#{dept_id},batch_id=#{batch_id} where c_id=#{c_id}
     </update>
     <!--    删除班级-->
     <delete id="classDeleteById" parameterType="com.myth.springboot.entity.Class">

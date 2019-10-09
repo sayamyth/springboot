@@ -7,9 +7,13 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 public class JumpController {
     //页面跳转-----------------------------------------------------------------
+//    @RequestMapping("/")
+//    public String index(){
+//        return "index";
+//    }
     @RequestMapping("/")
     public String index(){
-        return "index";
+        return "login";
     }
     @RequestMapping("/a")
     public String a(){
@@ -121,5 +125,62 @@ public class JumpController {
     @RequestMapping("/toBatchList")
     public String toBatchList(){
         return "batch/batch-list";
+    }
+    @RequestMapping("/toBatchAdd")
+    public String toBatchAdd(){
+        return "batch/batch-add";
+    }
+
+
+    //
+    @RequestMapping("/toResultList")
+    public String toResultList(){
+        return "result/result-list";
+    }
+
+    //
+    @RequestMapping("toList")
+    public String toList(){
+        return "s/list";
+    }
+    @RequestMapping("toS")
+    public String toS(){
+        return "s/s-list";
+    }
+
+    @RequestMapping("toS1")
+    public String toS1(){
+        return "s/s-list1";
+    }
+    //跳转到学生试题添加页面
+    @RequestMapping("/toQuestionAdd")
+    public String toQuestionAdd(){
+        return "question/question-add";
+    }
+    //跳转到学生试题查看页面
+    @RequestMapping("/toQuestionList")
+    public String toQuestionList(){
+        return "question/question-list";
+    }
+    //跳转到学生试题修改页面
+    @RequestMapping("/toQuestionUpdate")
+    public String toQuestionUpdate(){
+        return "question/question-update";
+    }
+
+    //跳转到教师试题添加页面
+    @RequestMapping("/toQuestionsAdd")
+    public String toQuestionsAdd(){
+        return "questions/questions-add";
+    }
+    //跳转到教师试题查看页面
+    @RequestMapping("/toQuestionsList")
+    public String toQuestionsList(){
+        return "questions/questions-list";
+    }
+    //跳转到教师试题修改页面
+    @RequestMapping("/toQuestionsUpdate")
+    public String toQuestionsUpdate(){
+        return "questions/questions-update";
     }
 }

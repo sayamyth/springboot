@@ -18,6 +18,8 @@ public interface UserMapper {
     //删除用户
     int userDelete(User user);
 
+    List<User> selectUserByName(String u_name);
+
 
 
 }

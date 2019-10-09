@@ -74,9 +74,9 @@ public class ClassController {
 
     @RequestMapping("/classAdd")
     @ResponseBody
-    public Msg classAdd(String name,String dept_id) {
+    public Msg classAdd(String batch_id,String name,String dept_id) {
 
-        Class cla = new Class(name,dept_id);
+        Class cla = new Class(name,dept_id,batch_id);
         List<Class> cl = classService.classSelect(new Class());
         for (Class c : cl) {
             if (c.getC_name().equals(name)) {
@@ -93,7 +93,7 @@ public class ClassController {
 
     @RequestMapping("/classUpdate")
     @ResponseBody
-    public Msg classUpdate(String id, String name,String dept_id) {
+    public Msg classUpdate(String batch_id,String id, String name,String dept_id) {
 
         List<Class> cl = classService.classSelect(new Class());
 
@@ -107,7 +107,7 @@ public class ClassController {
         System.out.println(id + "......" + name);
         Integer c_id = Integer.valueOf(id).intValue();
         String c_name = name;
-        Class cla = new Class(c_id, c_name,dept_id);
+        Class cla = new Class(c_id, c_name,dept_id,batch_id);
 
         int i = classService.classUpdateById(cla);
         if (i > 0) {

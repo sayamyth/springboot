@@ -5,51 +5,40 @@ import com.myth.springboot.service.LoginService;
 import jdk.nashorn.internal.ir.RuntimeNode;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.web.servlet.server.Session;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.Mapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.SessionAttribute;
+import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.util.HashMap;
 import java.util.Map;
 
 @Controller
 public class LoginController {
-//    @Autowired
-//    LoginService loginService;
-//    @RequestMapping("/")
-//    public String index(){
-//        return "login";
-//    }
-//    @RequestMapping("login")
-//    public String login(String username, String password, Map<String,Object> map) {
-//
-//        System.out.println(username + "...." + password);
-//        try {
-//            User user = loginService.login(username, password);
-//            if (user != null) {
-//                map.put("username",username);
-//                String type = user.getType();
-//                System.out.println(type);
-//
-//                if (type.equals("0")) {
-//                    return "index";
-//                }
-//                else if (type.equals("1")) {
-//                    return "one";
-//                } else {
-//                    return "tow";
-//                }
-//            } else {
-//                return "login";
-//            }
-//        } catch (Exception e) {
-//            System.out.println(666);
-//            return "login";
-//        }
-//
-//
-//    }
+    @Autowired
+    LoginService loginService;
+
+    @RequestMapping("login")
+    public ModelAndView login(String username, String password, HttpServletRequest request, HttpServletResponse response) {
+        ModelAndView mv;
+        User u = loginService.login(username,password);
+        if (u != null){
+             mv = new ModelAndView("index");
+            HttpSession session = request.getSession();
+            session.setAttribute("user",u.getU_name());
+            session.setAttribute("u_id",u.getU_id());
+            mv.addObject("user",u);
+        }else {
+             mv = new ModelAndView("login");
+        }
+        return mv;
+    }
 //    @RequestMapping("/test")
 //    @ResponseBody
 //    public Map<String,Object> test(){

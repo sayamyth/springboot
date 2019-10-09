@@ -6,7 +6,25 @@ public class Class {
     private String dept_id;
     private Dept dept;
     private String dept_name;
+    private String batch_id;
+    private String batch_name;
 
+
+    public String getBatch_id() {
+        return batch_id;
+    }
+
+    public void setBatch_id(String batch_id) {
+        this.batch_id = batch_id;
+    }
+
+    public String getBatch_name() {
+        return batch_name;
+    }
+
+    public void setBatch_name(String batch_name) {
+        this.batch_name = batch_name;
+    }
 
     public Integer getC_id() {
         return c_id;
@@ -64,16 +82,22 @@ public class Class {
         this.dept_id = dept_id;
     }
 
+    public Class(String c_name, String dept_id, String batch_id) {
+        this.c_name = c_name;
+        this.dept_id = dept_id;
+        this.batch_id = batch_id;
+    }
+
     public Class(Integer c_id, String c_name, String dept_id) {
         this.c_id = c_id;
         this.c_name = c_name;
         this.dept_id = dept_id;
     }
 
-    public Class(Integer c_id, String c_name, String dept_id, String dept_name) {
+    public Class(Integer c_id, String c_name, String dept_id,String batch_id) {
         this.c_id = c_id;
         this.c_name = c_name;
         this.dept_id = dept_id;
-        this.dept_name = dept_name;
+        this.batch_id = batch_id;
     }
 }

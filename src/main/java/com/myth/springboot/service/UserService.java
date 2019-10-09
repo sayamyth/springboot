@@ -28,7 +28,9 @@ public class UserService {
         return mapper.userDelete(user);
    }
 
-
+    public List<User> selectUserByName(String u_name){
+        return mapper.selectUserByName(u_name);
+    }
 
 
 

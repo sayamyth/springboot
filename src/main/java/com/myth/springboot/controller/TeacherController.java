@@ -2,10 +2,7 @@ package com.myth.springboot.controller;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.myth.springboot.entity.Msg;
-import com.myth.springboot.entity.Student;
-import com.myth.springboot.entity.Teacher;
-import com.myth.springboot.entity.User;
+import com.myth.springboot.entity.*;
 import com.myth.springboot.service.TeacherService;
 import com.myth.springboot.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +28,19 @@ public class TeacherController {
      * 教师业务
      */
 
+    //根据name查找用户
+    @RequestMapping("/selectTeacherByName")
+    @ResponseBody
+    public Map selectTeacherByName(String t_name){
+        PageHelper.startPage(1,10);
+        Teacher teacher=new Teacher();
+        teacher.setT_name(t_name);
+        List<Teacher> list=teacherService.selectTeacherByName(t_name);
+        PageInfo pageInfo = new PageInfo(list,5);
+        Map<String,Object> map = new HashMap<>();
+        map.put("data",pageInfo);
+        return map;
+    }
 
 
 

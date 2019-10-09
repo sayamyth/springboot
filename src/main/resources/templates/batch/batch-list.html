@@ -29,12 +29,15 @@
         <script type="text/html" id="currentTableBar">
             <a class="layui-btn layui-btn-xs data-count-edit" lay-event="edit">编辑</a>
             <a class="layui-btn layui-btn-xs layui-btn-danger data-count-delete" lay-event="delete">删除</a>
-            {{#  if(data.b_type == 0){ }}
-            <input type="checkbox" name="zzz" lay-skin="switch" lay-text="开启|关闭" checked="checked">
+        </script>
+        <script type="text/html" id="TypeBar" th:inline="none">
+            {{#  if(d.b_type == 0){ }}
+             <input type="checkbox" name="on" value="{{d.b_id}}" lay-skin="switch" lay-text="开启|关闭" >
+            {{#  } else if(d.b_type == 1) { }}
+             <input type="checkbox" name="off" value="{{d.b_id}}" lay-skin="switch" lay-text="开启|关闭" checked>
             {{#  } else { }}
-            <input type="checkbox" name="zzz" lay-skin="switch" lay-text="开启|关闭" >
+            <div>已结束</div>
             {{#  } }}
-
         </script>
     </div>
 </div>
@@ -51,7 +54,7 @@
                 {type: 'numbers', title: '序号', sort: true, width: 50, fixed: "left"},
                 {field: 'b_id', title: 'Id', hidden: true},
                 {field: 'b_name', title: '名称'},
-                {field: 'b_type', title: '状态'},
+                { title: '状态',templet: '#TypeBar'},
                 {title: '操作', minWidth: 50, templet: '#currentTableBar', fixed: "right", align: "center"}
             ]],
             page: true,
@@ -67,11 +70,36 @@
             }
         });
 
+
+        form.on('switch()', function(data){
+            console.log(data.elem); //得到checkbox原始DOM对象
+            console.log(data.elem.checked); //开关是否开启，true或者false
+            console.log(data.value); //开关value值，也可以通过data.elem.value得到
+            console.log(data.othis); //得到美化后的DOM对象
+            if (data.elem.checked) {
+                $.ajax({
+                    url: "batchChangeTrue",
+                    data: {id:data.value},
+                    success:function (data) {
+                        // alert(data.extend.msg)
+                    }
+                })
+            }else {
+                $.ajax({
+                    url: "batchChangeFalse",
+                    data: {id:data.value},
+                    success:function (data) {
+                        // alert(data.extend.msg)
+                    }
+                })
+            }
+
+        });
         // 监听添加操作
         $(".data-add-btn").on("click", function () {
             layer.open({
                 type: 2,
-                content: "/toTypeAdd",
+                content: "/toBatchAdd",
                 maxmin: true,
                 area: ['500px', '500px'],
                 end: function () {//无论是确认还是取消，只要层被销毁了，end都会执行，不携带任何参数。layer.open关闭事件
@@ -91,7 +119,7 @@
 
                 layer.open({
                     type: 2,
-                    content: "/deptGetById?id=" + data.id,
+                    content: "/batchGetById?id=" + data.b_id,
                     maxmin: true,
                     area: ['500px', '500px'],
                     end: function () {//无论是确认还是取消，只要层被销毁了，end都会执行，不携带任何参数。layer.open关闭事件
@@ -103,8 +131,8 @@
                     if (index) {
                         $.ajax({
                             type: "post",
-                            url: "/typeDelete",
-                            data: {"id": data.id},
+                            url: "/batchDelete",
+                            data: {"id": data.b_id},
                             success: function (data) {
                                 // obj.del();
                                 layer.alert(data.extend.msg);

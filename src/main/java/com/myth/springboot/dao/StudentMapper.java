@@ -20,6 +20,7 @@ public interface StudentMapper {
 
 
     int studentDeleteByUserId(Student student);
+    public List<Student> selectStudentByName(String s_name);
 
 
 

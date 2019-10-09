@@ -14,6 +14,7 @@ public interface BatchMapper {
     List<Batch> batchSelect(Batch batch);
 
     int batchUpdate(Batch batch);
+    int batchUpdateType(Batch batch);
 
     int batchDelete(Batch batch);
 

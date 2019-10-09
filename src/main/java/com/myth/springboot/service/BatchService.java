@@ -27,6 +27,9 @@ public class BatchService {
     public int batchUpdate(Batch batch){
         return mapper.batchUpdate(batch);
     }
+    public int batchUpdateType(Batch batch){
+        return mapper.batchUpdateType(batch);
+    }
     public int batchDelete(Batch batch){
         return mapper.batchDelete(batch);
     }

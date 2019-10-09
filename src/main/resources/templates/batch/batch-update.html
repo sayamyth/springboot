@@ -21,35 +21,18 @@
 <body>
 <div class="layuimini-container">
     <form class="layui-form" action="">
-        <input type="hidden" name="id" th:value="${user.getU_id()}">
+        <input type="hidden" name="id" th:value="${batch.getB_id()}">
 
         <div class="layui-form-item">
             <label class="layui-form-label">账户</label>
             <div class="layui-input-inline">
-                <input type="text" name="name" required lay-verify="required" placeholder="请输入账户" autocomplete="off" disabled
-                       th:value="${user.getU_name()}"
+                <input type="text" name="name" required lay-verify="required" placeholder="请输入账户" autocomplete="off"
+                       th:value="${batch.getB_name()}"
                        class="layui-input">
             </div>
             <div class="layui-form-mid layui-word-aux">无法修改用户名</div>
         </div>
-        <div class="layui-form-item">
-            <label class="layui-form-label">密码</label>
-            <div class="layui-input-inline">
-                <input type="text" name="password" required lay-verify="required" placeholder="请输入密码" autocomplete="off"
-                       th:value="${user.getU_password()}"
-                       class="layui-input">
-            </div>
-            <div class="layui-form-mid layui-word-aux">这里是登陆的密码</div>
-        </div>
-        <div class="layui-form-item">
-            <label class="layui-form-label">权限</label>
-            <div class="layui-input-inline " id="list1">
-                <input type="text" name="text" required lay-verify="required" placeholder="" autocomplete="off"
-                       th:value="${user.getType_id()}+'-'+${user.getType_name()}" id="type"
-                       class="layui-input">
-            </div>
-            <div class="layui-form-mid layui-word-aux">这里是权限信息</div>
-        </div>
+
         <div class="layui-form-item">
             <div class="layui-input-block">
                 <button class="layui-btn sub" lay-submit lay-filter="*">立即提交</button>
@@ -67,31 +50,6 @@
             element = layui.element,
             layer = layui.layer;
         var form = layui.form;
-        //点击权限，弹出下拉
-        $("#type").on("click", function () {
-            $("#list1").empty();
-            $.ajax({
-                url: "/typeList",
-                success: function (result) {
-
-                    // var div = $("<div></div>").addClass("layui-input-block");
-                    var list = $("#list1").empty();
-                    var select = $("<select name='type' ></select>").addClass("");
-                    $.each(result.extend.type, function (index, item) {
-                        var data = $("<option></option>").append(item.id + "-" + item.name);
-                        // layer.alert(item.id);
-                        select.append(data);
-                    })
-                    // div.append(select)
-                    $("#list1").append(select);
-                    form.render();
-                },
-                error: function () {
-                    alert("出错了");
-                }
-
-            })
-        })
 
         $(".sub").on("click", function () {
 
@@ -102,7 +60,7 @@
                 var yes = data.field;//当前容器的全部表单字段，名值对形式：{name: value}
 
                 $.ajax({
-                    url: "/userUpdate",
+                    url: "/batchUpdate",
                     data: yes,
                     success: function (result) {
 

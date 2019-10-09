@@ -36,4 +36,8 @@ public class TeacherService {
     public int teacherAdd(Teacher teacher){
         return mapper.teacherAdd(teacher);
     }
+
+    public List<Teacher> selectTeacherByName(String t_name){
+        return mapper.selectTeacherByName(t_name);
+    }
 }

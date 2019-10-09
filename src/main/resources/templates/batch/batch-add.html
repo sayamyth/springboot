@@ -21,12 +21,12 @@
 <body>
 <form class="layui-form">
     <div class="layui-form-item">
-        <label class="layui-form-label">权限名称</label>
+        <label class="layui-form-label">批次名称</label>
         <div class="layui-input-inline">
             <input type="text" name="name" required lay-verify="required" placeholder="请输入" autocomplete="off"
                    class="layui-input">
         </div>
-        <div class="layui-form-mid layui-word-aux">这里是权限名称</div>
+        <div class="layui-form-mid layui-word-aux">批次名称不可重复</div>
     </div>
     <div class="layui-form-item">
         <div class="layui-input-block">
@@ -58,7 +58,7 @@
                 yes = data.field;//当前容器的全部表单字段，名值对形式：{name: value}
 
                 $.ajax({
-                    url: "/typeAdd",
+                    url: "/batchAdd",
                     data: yes,
                     success: function (res) {
                         layer.alert(res.extend.msg)

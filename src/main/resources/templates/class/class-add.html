@@ -21,6 +21,13 @@
 <body>
 <form class="layui-form">
     <div class="layui-form-item">
+        <label class="layui-form-label">学期</label>
+        <div class="layui-input-inline" id="list0">
+
+        </div>
+        <div class="layui-form-mid layui-word-aux">选择部门</div>
+    </div>
+    <div class="layui-form-item">
         <label class="layui-form-label">班级名称</label>
         <div class="layui-input-inline">
             <input type="text" name="name" required lay-verify="required" placeholder="请输入班级名称" autocomplete="off"
@@ -67,6 +74,30 @@
                     })
                     // div.append(select)
                     $("#list").append(select);
+                    form.render();
+                },
+                error: function () {
+                    alert("出错了");
+                }
+
+            })
+        })
+
+        $(function () {
+            $.ajax({
+                url: "/batchList",
+                success: function (result) {
+
+                    // var div = $("<div></div>").addClass("layui-input-block");
+                    var list = $("#list0").empty();
+                    var select = $("<select name='batch_id' ></select>").addClass("");
+                    $.each(result.extend.batch, function (index, item) {
+                        var data = $("<option value="+item.b_id+"></option>").append(item.b_name);
+                        // layer.alert(item.id);
+                        select.append(data);
+                    })
+                    // div.append(select)
+                    $("#list0").append(select);
                     form.render();
                 },
                 error: function () {
