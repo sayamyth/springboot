@@ -110,18 +110,23 @@ public class TeachingController {
     //统计分数
     @RequestMapping("/getMark")
     @ResponseBody
-    public Msg getMark(String id,String batch_name,String class_name){
-        Batch batch = new Batch();
-        batch.setB_name(batch_name);
-        String type=batchService.batchSelect(batch).get(0).getB_type();
-//        System.out.println(type);
-        if (type.equals("1")){
-            return Msg.success().add("msg","批次尚未关闭！");
+    public Msg getMark(String te_id){
+
+        System.out.println(te_id);
+
+        String mark=teachingService.selectMarkByID(te_id);
+        System.out.println(mark);
+        if (mark==null){
+            return Msg.success().add("msg","尚未有人进行评教!");
         }
-
-
-        //写统分逻辑，此处未完成
-        return Msg.success().add("msg","sss");
+        int i=teachingService.updateTeaching(mark,te_id);
+        //System.out.println(point);
+        if (i>0){
+            return Msg.success().add("msg","统计分数成功");
+        }
+        else {
+            return Msg.success().add("msg","统计分数失败");
+        }
     }
 
 }

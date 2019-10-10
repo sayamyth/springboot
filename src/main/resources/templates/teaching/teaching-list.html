@@ -22,7 +22,6 @@
     <div class="layuimini-main">
 
 
-
         <div class="layui-btn-group">
             <button class="layui-btn data-add-btn">添加</button>
             <button class="layui-btn layui-btn-danger data-delete-btn">删除</button>
@@ -44,19 +43,19 @@
             url: '/teachingListWithPage',
             cols: [[
                 {type: "checkbox", width: 50, fixed: "left"},
-                {type: 'numbers', title: '序号', sort: true, width:50},
+                {type: 'numbers', title: '序号', sort: true, width: 50},
                 {field: 'batch_name', title: '批次'},
                 {field: 'class_name', title: '班级'},
                 {field: 'dept_name', title: '部门'},
                 {field: 'teacher_name', title: '老师'},
-                {field: 'course_name',title: '课程'},
-                {field: 'te_id', title: 'id',hide:true},
+                {field: 'course_name', title: '课程'},
+                {field: 'te_id', title: 'id', hide: true},
                 {title: '操作', minWidth: 50, templet: '#currentTableBar', fixed: "right", align: "center"}
             ]],
-            page:true,
-            limit:10,
-            response:{statusCode:0},
-            parseData:function (res) {
+            page: true,
+            limit: 10,
+            response: {statusCode: 0},
+            parseData: function (res) {
                 return {
                     "code": 0, //解析接口状态
                     "msg": "", //解析提示文本
@@ -86,12 +85,17 @@
         // 监听添加操作
         $(".data-add-btn").on("click", function () {
             layer.open({
-                type:2,
-                content:"/toTeachingAdd",
-                maxmin:true,
-                area:['500px','500px'],
+                type: 2,
+                content: "/toTeachingAdd",
+                maxmin: true,
+                area: ['500px', '500px'],
                 end: function () {//无论是确认还是取消，只要层被销毁了，end都会执行，不携带任何参数。layer.open关闭事件
-                    location.reload();　　//layer.open关闭刷新
+                    table.reload('currentTableId', {
+                        url: '/teachingListWithPage',
+                        page: {
+                            curr: 1 //重新从第 1 页开始
+                        }
+                    }); //只重载数据
                 }
             })
         });
@@ -99,9 +103,9 @@
         $(".data-delete-btn").on("click", function () {
             var checkStatus = table.checkStatus('currentTableId')
                 , data = checkStatus.data;
-            if (JSON.stringify(data) == null || JSON.stringify(data) == "[]"){
+            if (JSON.stringify(data) == null || JSON.stringify(data) == "[]") {
                 layer.msg("选择不能为空！");
-            }else {
+            } else {
                 layer.confirm('真的删除行么', function (index) {
                     if (index) {
                         var checkStatus = table.checkStatus('currentTableId'),
@@ -118,9 +122,14 @@
                                 data: {"id": id},
                                 success: function (data) {
                                     layer.alert(data.extend.msg);
-                                    // setTimeout(function () {
-                                    //     location.reload();
-                                    // }, 2000);
+                                    setTimeout(function () {
+                                        table.reload('currentTableId', {
+                                            url: '/teachingListWithPage',
+                                            page: {
+                                                curr: 1 //重新从第 1 页开始
+                                            }
+                                        }); //只重载数据
+                                    }, 2000);
                                     // layer.close(index);
                                 }
 
@@ -148,27 +157,38 @@
                 //     area: ['500px', '300px']
                 // })
                 layer.open({
-                    type:2,
-                    content:"",
-                    maxmin:true,
-                    area:['500px','500px'],
+                    type: 2,
+                    content: "",
+                    maxmin: true,
+                    area: ['500px', '500px'],
                     end: function () {//无论是确认还是取消，只要层被销毁了，end都会执行，不携带任何参数。layer.open关闭事件
-                        location.reload();　　//layer.open关闭刷新
+                        table.reload('currentTableId', {
+                            url: '/teachingListWithPage',
+                            page: {
+                                curr: 1 //重新从第 1 页开始
+                            }
+                        }); //只重载数据
                     }
                 })
             } else if (obj.event === 'delete') {
                 layer.confirm('真的删除行么', function (index) {
-                    if (index){
+                    if (index) {
                         $.ajax({
-                            type:"post",
-                            url:"/teachingDelete",
-                            data:{"id":data.te_id},
-                            success:function (data) {
+                            type: "post",
+                            url: "/teachingDelete",
+                            data: {"id": data.te_id},
+                            success: function (data) {
                                 // obj.del();
                                 layer.alert(data.extend.msg);
+                                table.reload('currentTableId', {
+                                    url: '/teachingListWithPage',
+                                    page: {
+                                        curr: 1 //重新从第 1 页开始
+                                    }
+                                }); //只重载数据
                             }
                         });
-                    }else {
+                    } else {
                         layer.close(index);
                     }
                 });
@@ -176,8 +196,5 @@
         });
     });
 </script>
-<script>
-</script>
-
 </body>
 </html>

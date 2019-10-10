@@ -42,9 +42,10 @@
         table.render({
             elem: document.getElementById('currentTableId'),
             url: '/typeListWithPage',
+            id: 'idTest',
             cols: [[
                 {type: 'numbers', title: '序号', sort: true, width:50,fixed: "left"},
-                {field: 'id', title: 'Id',hidden:true},
+                {field: 'id', title: 'Id',hide:true},
                 {field: 'name', title: '名称'},
 
                 {title: '操作', minWidth: 50, templet: '#currentTableBar', fixed: "right", align: "center"}
@@ -103,6 +104,12 @@
                             success:function (data) {
                                 // obj.del();
                                 layer.alert(data.extend.msg);
+
+                                table.reload('idTest', {
+                                    page: {
+                                        curr: 1 //重新从第 1 页开始
+                                    }
+                                }); //只重载数据
                             }
                         });
                     }else {

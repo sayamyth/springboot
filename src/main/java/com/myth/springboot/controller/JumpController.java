@@ -19,7 +19,10 @@ public class JumpController {
     public String a(){
         return "aaa";
     }
-
+    @RequestMapping("/toLogin")
+    public String toLogin(){
+        return "login";
+    }
 
 
     //
@@ -147,11 +150,22 @@ public class JumpController {
     public String toS(){
         return "s/s-list";
     }
-
     @RequestMapping("toS1")
     public String toS1(){
         return "s/s-list1";
     }
+
+    @RequestMapping("toT")
+    public String toT(){
+        return "t/t-list";
+    }
+    @RequestMapping("toT1")
+    public String toT1(){
+        return "t/list1";
+    }
+
+
+
     //跳转到学生试题添加页面
     @RequestMapping("/toQuestionAdd")
     public String toQuestionAdd(){

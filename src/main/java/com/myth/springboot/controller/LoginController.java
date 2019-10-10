@@ -24,16 +24,39 @@ public class LoginController {
     @Autowired
     LoginService loginService;
 
-    @RequestMapping("login")
+    @RequestMapping("/loginIn")
     public ModelAndView login(String username, String password, HttpServletRequest request, HttpServletResponse response) {
         ModelAndView mv;
         User u = loginService.login(username,password);
+        System.out.println(u.getType_id());
         if (u != null){
-             mv = new ModelAndView("index");
-            HttpSession session = request.getSession();
-            session.setAttribute("user",u.getU_name());
-            session.setAttribute("u_id",u.getU_id());
-            mv.addObject("user",u);
+            if (u.getType_id().equals("1")){
+                System.out.println("进入1");
+                mv = new ModelAndView("index");
+                HttpSession session = request.getSession();
+                session.setAttribute("user",u.getU_name());
+                session.setAttribute("u_id",u.getU_id());
+                mv.addObject("user",u);
+            }
+            else if (u.getType_id().equals("2")){
+                System.out.println("进入2");
+                mv = new ModelAndView("teacher");
+                HttpSession session = request.getSession();
+                session.setAttribute("user",u.getU_name());
+                session.setAttribute("u_id",u.getU_id());
+                mv.addObject("user",u);
+            }
+            else if (u.getType_id().equals("3")){
+                System.out.println("进入3");
+                mv = new ModelAndView("student");
+                HttpSession session = request.getSession();
+                session.setAttribute("user",u.getU_name());
+                session.setAttribute("u_id",u.getU_id());
+                mv.addObject("user",u);
+            }else {
+                mv = new ModelAndView("login");
+            }
+
         }else {
              mv = new ModelAndView("login");
         }

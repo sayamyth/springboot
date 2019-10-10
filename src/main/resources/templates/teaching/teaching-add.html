@@ -39,17 +39,17 @@
             <label class="layui-form-label">部门</label>
             <div class="layui-input-inline">
                 <input id="dept_id" name="dept_id" hidden>
-                <input type="text" id="dept_name"  name="dept_name" required lay-verify="required" placeholder="请输入" autocomplete="off"
+                <input type="text" id="dept_name" name="dept_name" required lay-verify="required" placeholder="请输入"
+                       autocomplete="off"
                        disabled
                        class="layui-input">
             </div>
-            <div class="layui-form-mid layui-word-aux" >点击出现教师</div>
+            <div class="layui-form-mid layui-word-aux">点击出现教师</div>
         </div>
         <div class="layui-form-item">
             <label class="layui-form-label">教师</label>
             <div class="layui-input-inline" id="list">
-<!--                <input type="text" id="test" required lay-verify="required" placeholder="请先选择班级" autocomplete="off"-->
-<!--                       class="layui-input">-->
+
             </div>
             <div class="layui-form-mid layui-word-aux">选一个吧</div>
         </div>
@@ -59,13 +59,7 @@
             </div>
             <div class="layui-form-mid layui-word-aux">选一个吧</div>
         </div>
-        <!--        <div class="layui-form-item">-->
-        <!--            <label class="layui-form-label">院系</label>-->
-        <!--            <div class="layui-input-inline" id="list2">-->
 
-        <!--            </div>-->
-        <!--            <div class="layui-form-mid layui-word-aux">不能添加已有的部门哦</div>-->
-        <!--        </div>-->
         <div class="layui-form-item">
             <div class="layui-input-block">
                 <button class="layui-btn sub" lay-submit lay-filter="*">立即提交</button>
@@ -97,7 +91,7 @@
                     $("#list").empty();
                     var select = $("<select name='teacher' lay-verify='required' ></select>");
                     $.each(result.teacher, function (index, item) {
-                        var d = $("<option value="+item.t_id+'-'+item.t_name+"></option>").append(item.t_name);
+                        var d = $("<option value=" + item.t_id + '-' + item.t_name + "></option>").append(item.t_name);
                         //alert(item.c_id+"-"+item.c_name);
                         select.append(d);
                     })
@@ -107,6 +101,7 @@
             })
         })
     }
+
     layui.use(['element', 'layer', 'layuimini', 'form'], function () {
         var $ = layui.jquery,
             element = layui.element,
@@ -117,26 +112,25 @@
 
 
         //得到老师信息
-            form.on('select(test2)', function (data) {
-                console.log(data.elem); //得到select原始DOM对象
-                console.log(data.value); //得到被选中的值
-                console.log(data.othis); //得到美化后的DOM对象
-                var arr = new Array();
-                arr = data.value.split("-");
-                $("#list").empty();
-                $.ajax({
-                    url: "classListByName",
-                    data: {class_name: arr[1]},
-                    success: function (data) {
-                        $("#dept_name").val(data.extend.cla.dept_name);
-                        $("#dept_id").val(data.extend.cla.dept_id);
-                        $("#list").append("<input id='test' class='layui-input' name='teacher' lay-verify='required' onclick='getTeacher()'>")
-                        form.render();
-                    }
-                })
-            });
+        form.on('select(test2)', function (data) {
+            console.log(data.elem); //得到select原始DOM对象
+            console.log(data.value); //得到被选中的值
+            console.log(data.othis); //得到美化后的DOM对象
+            var arr = new Array();
+            arr = data.value.split("-");
+            $("#list").empty();
+            $.ajax({
+                url: "classListByName",
+                data: {class_name: arr[1]},
+                success: function (data) {
+                    $("#dept_name").val(data.extend.cla.dept_name);
+                    $("#dept_id").val(data.extend.cla.dept_id);
+                    $("#list").append("<input id='test' class='layui-input' name='teacher' lay-verify='required' onclick='getTeacher()'>")
+                    form.render();
+                }
+            })
+        });
         // })
-
 
 
         $(".sub").on("click", function () {
@@ -172,8 +166,8 @@
             success: function (result) {
                 $("#list0").empty();
                 var select = $("<select  name='batch' lay-verify='required'></select>");
-                $.each(result.extend.data, function (index, item) {
-                    var data = $("<option value="+item.b_id+'-'+item.b_name+"></option>").append(item.b_name);
+                $.each(result.extend.batch, function (index, item) {
+                    var data = $("<option value=" + item.b_id + '-' + item.b_name + "></option>").append(item.b_name);
                     //alert(item.c_id+"-"+item.c_name);
                     select.append(data);
                 })
@@ -186,10 +180,10 @@
         $.ajax({
             url: "/classList",
             success: function (result) {
-             $("#list1").empty();
+                $("#list1").empty();
                 var select = $("<select id='select1' name='cla' lay-verify='required' lay-filter='test2'></select>");
                 $.each(result.extend.cla, function (index, item) {
-                    var data = $("<option value="+item.c_id+'-'+item.c_name+"></option>").append(item.c_name);
+                    var data = $("<option value=" + item.c_id + '-' + item.c_name + "></option>").append(item.c_name);
                     //alert(item.c_id+"-"+item.c_name);
                     select.append(data);
                 })
@@ -205,7 +199,7 @@
                 $("#list3").empty();
                 var select = $("<select  name='course' lay-verify='required' ></select>");
                 $.each(result.extend.courses, function (index, item) {
-                    var data = $("<option value="+item.co_id+'-'+item.co_name+"></option>").append(item.co_name);
+                    var data = $("<option value=" + item.co_id + '-' + item.co_name + "></option>").append(item.co_name);
                     //alert(item.c_id+"-"+item.c_name);
                     select.append(data);
                 })
@@ -215,41 +209,6 @@
                 alert("错误啦")
             }
         })
-        // $.ajax({
-        //     url:"teacherSelectByDeptId",
-        //     data:{dept_id:1},
-        //     success:function (result) {
-        //         // alert(777)
-        //         $("#list2").empty();
-        //         var select = $("<select id='select2' name='teacher_name' lay-verify='required' ></select>");
-        //         $.each(result.teacher, function (index, item) {
-        //             var d = $("<option></option>").append(item.t_name);
-        //             //alert(item.c_id+"-"+item.c_name);
-        //             select.append(d);
-        //         })
-        //         $("#list2").append(select);
-        //     }
-        // })
-        // $.ajax({
-        //     url: "/deptList",
-        //     success: function (result) {
-        //         // var lable = $("<label>院系</label>").addClass("layui-form-label");
-        //         // var div = $("<div></div>").addClass("layui-input-block");
-        //         var list = $("#list2").empty();
-        //         var select = $("<select name='d_id' ></select>").addClass("");
-        //         $.each(result.extend.dept, function (index, item) {
-        //             var data = $("<option value="+item.d_id+"></option>").append(item.d_name);
-        //
-        //             select.append(data);
-        //         })
-        //         // div.append(select)
-        //         // $("#list2").append(lable).append(div);
-        //         $("#list2").append(select);
-        //     },
-        //     error: function () {
-        //         alert("出错了");
-        //     }
-        // })
     })
 
 

@@ -43,6 +43,7 @@
         table.render({
             elem: document.getElementById('currentTableId'),
             url: '/classListWithPage',
+            // id: 'idTest',
             cols: [[
                 {type: "checkbox", width: 50, fixed: "left"},
                 {type: 'numbers', title: '序号', sort: true, width:50},
@@ -89,8 +90,12 @@
                 maxmin:true,
                 area:['500px','500px'],
                 end: function () {//无论是确认还是取消，只要层被销毁了，end都会执行，不携带任何参数。layer.open关闭事件
-                    layer.close();
-                    location.reload();　　//layer.open关闭刷新
+                    table.reload('currentTableId', {
+                        url: '/classListWithPage',
+                        page: {
+                            curr: 1 //重新从第 1 页开始
+                        }
+                    }); //只重载数据
                 }
             })
         });
@@ -121,7 +126,12 @@
                                 success: function (data) {
                                     layer.msg(data.extend.msg);
                                     setTimeout(function () {
-                                        location.reload();
+                                        table.reload('currentTableId', {
+                                            url: '/classListWithPage',
+                                            page: {
+                                                curr: 1 //重新从第 1 页开始
+                                            }
+                                        }); //只重载数据
                                     }, 5000);
                                     // layer.close(index);
                                 }
@@ -153,7 +163,12 @@
                     maxmin:true,
                     area:['500px','500px'],
                     end: function () {//无论是确认还是取消，只要层被销毁了，end都会执行，不携带任何参数。layer.open关闭事件
-                        location.reload();　　//layer.open关闭刷新
+                        table.reload('currentTableId', {
+                            url: '/classListWithPage',
+                            page: {
+                                curr: 1 //重新从第 1 页开始
+                            }
+                        }); //只重载数据
                     }
                 })
             } else if (obj.event === 'delete') {
@@ -166,6 +181,12 @@
                             success:function (data) {
                                 // obj.del();
                                 layer.alert(data.extend.msg);
+                                table.reload('currentTableId', {
+                                    url: '/classListWithPage',
+                                    page: {
+                                        curr: 1 //重新从第 1 页开始
+                                    }
+                                }); //只重载数据
                             },
                             error:function () {
                                 layer.alert("错误");

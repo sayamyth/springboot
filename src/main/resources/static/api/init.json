@@ -127,47 +127,9 @@
               "target": "_self"
             }
           ]
-        },
-        {
-          "title": "学生评教",
-          "href": "",
-          "icon": "fa fa-home",
-          "target": "_self",
-          "child": [
-            {
-              "title": "评教",
-              "href": "toS",
-              "icon": "fa fa-gears",
-              "target": "_self"
-            },
-            {
-              "title": "评教记录",
-              "href": "toS1",
-              "icon": "fa fa-file-text",
-              "target": "_self"
-            }
-          ]
-        },
-        {
-          "title": "同行评教",
-          "href": "",
-          "icon": "fa fa-home",
-          "target": "_self",
-          "child": [
-            {
-              "title": "评教",
-              "href": "toStudentList",
-              "icon": "fa fa-gears",
-              "target": "_self"
-            },
-            {
-              "title": "评教记录",
-              "href": "toTeacherList",
-              "icon": "fa fa-file-text",
-              "target": "_self"
-            }
-          ]
         }
+
+
       ]
     },
     "component": {

@@ -32,6 +32,8 @@ public class QuestionController {
 
         return Msg.success().add("data",list);
     }
+
+    //学生评教得到试题
     @RequestMapping("/selectQuestion1")
     @ResponseBody
     public ModelAndView selectQuestion1(String te_id){
@@ -108,7 +110,12 @@ public class QuestionController {
             return Msg.success().add("msg","已有该试题，不能重复添加");
         }
         //获得所有占比
-        float pointo=Float.parseFloat(questionService.selectPoint());
+        float pointo;
+        if (questionService.selectPoint()==null){
+            pointo=0;
+        }else {
+            pointo= Float.parseFloat(questionService.selectPoint());
+        }
         float sum=Float.parseFloat(point);
         if(pointo+sum>1){
             return Msg.success().add("msg","所有试题占比不能超过1,现有"+pointo);

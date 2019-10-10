@@ -28,4 +28,12 @@ public class TeachingService {
         return mapper.teachingDelete(teaching);
     }
 
+    public String selectMarkByID(String te_id){
+        return mapper.selectMarkByID(te_id);
+    }
+
+    public int updateTeaching(String mark,String te_id){
+        return mapper.updateTeaching(mark,te_id);
+    }
+
 }

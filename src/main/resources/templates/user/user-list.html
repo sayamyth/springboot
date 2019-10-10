@@ -46,10 +46,11 @@
         table.render({
             elem: document.getElementById('currentTableId'),
             url: '/userSelectWithPage',
+            id: 'idTest',
             cols: [[
                 {type: "checkbox", width: 50, fixed: "left"},
                 {type: 'numbers', title: '序号', sort: true, width:50},
-                {field: 'u_id', title: 'Id'},
+                {field: 'u_id', title: '唯一ID'},
                 {field: 'u_name', title: '账号' },
                 {field: 'u_password', title: '密码'},
                 {field: 'type_name', title: '权限'},
@@ -186,6 +187,11 @@
                             success:function (data) {
                                 // obj.del();
                                 layer.alert(data.extend.msg);
+                                table.reload('idTest', {
+                                    page: {
+                                        curr: 1 //重新从第 1 页开始
+                                    }
+                                }); //只重载数据
                             },
                             error:function () {
                                 layer.alert("错误");

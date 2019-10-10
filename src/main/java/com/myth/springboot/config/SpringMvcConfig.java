@@ -8,14 +8,14 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 public class SpringMvcConfig implements WebMvcConfigurer {
     @Override
     public void addViewControllers(ViewControllerRegistry registry) {
-//        registry.addViewController("/").setViewName("register.html");
-//        registry.addViewController("main.html").setViewName("index.html");
+        registry.addViewController("/").setViewName("login.html");
+        registry.addViewController("loginIn").setViewName("index.html");
     }
 
-//    @Override
-//    public void addInterceptors(InterceptorRegistry registry) {
-//        registry.addInterceptor(new LoginHandlerInterceptor())
-//                .addPathPatterns("/**")
-//                .excludePathPatterns("/","/login","/error","/static/**","/script/*.js","/login.html","/hello","/register.html","/register");
-//    }
+    @Override
+    public void addInterceptors(InterceptorRegistry registry) {
+        registry.addInterceptor(new LoginHandlerInterceptor())
+                .addPathPatterns("/**")
+                .excludePathPatterns("/","/login","/loginIn","/error","/static/**","/script/*.js","/login.html","/hello","/register.html","/register");
+    }
 }

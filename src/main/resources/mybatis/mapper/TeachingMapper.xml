@@ -20,4 +20,11 @@
     <delete id="teachingDelete" parameterType="com.myth.springboot.entity.Teaching">
         delete from teaching where te_id=#{te_id}
     </delete>
+
+    <select id="selectMarkByID" parameterType="string" resultType="string">
+        select avg(point) from mark where te_id=#{te_id}
+    </select>
+    <update id="updateTeaching" parameterType="string">
+        update teaching set mark=#{mark},is_end=1 where te_id=#{te_id}
+    </update>
 </mapper>

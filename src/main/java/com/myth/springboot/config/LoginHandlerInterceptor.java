@@ -11,7 +11,7 @@ public class LoginHandlerInterceptor implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        //Object username=request.getAttribute("user");
+        Object username=request.getAttribute("user");
         System.out.println("拦截器工作");
         Object user = request.getSession().getAttribute("user");
         System.out.println(user);

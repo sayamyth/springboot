@@ -20,22 +20,19 @@
 <body>
 <div class="layuimini-container">
     <div class="layuimini-main">
-
-
-
-        <div class="layui-btn-group">
-            <button class="layui-btn data-add-btn">添加</button>
-            <button class="layui-btn layui-btn-danger data-delete-btn">删除</button>
-        </div>
         <div class="layui-hide" id="currentTableId" lay-filter="currentTableFilter"> ></div>
         <script type="text/html" id="currentTableBar">
+            {{#  if(d.is_end == 0){ }}
             <a class="layui-btn layui-btn-xs layui-btn-danger data-count-delete" lay-event="delete">关闭并统分</a>
-        </script>
-        <script type="text/html" id="markBar" >
-            {{#  if(d.mark ==0){ }}
-                <div>暂未统分</div>
             {{#  } else { }}
-                {{d.mark}}
+            <a class="layui-btn layui-btn-xs layui-btn-normal data-count-delete">已统分</a>
+            {{#  } }}
+        </script>
+        <script type="text/html" id="markBar">
+            {{#  if(d.mark ==0){ }}
+            <div>暂未统分</div>
+            {{#  } else { }}
+            {{d.mark}}
             {{#  } }}
         </script>
         <script type="text/html" id="is_endBar">
@@ -57,21 +54,21 @@
             elem: document.getElementById('currentTableId'),
             url: '/teachingListWithPage',
             cols: [[
-                {type: "checkbox", width: 50, fixed: "left"},
-                {type: 'numbers', title: '序号', sort: true, width:50},
+                // {type: "checkbox", width: 50, fixed: "left"},
+                {type: 'numbers', title: '序号', sort: true, width: 50},
                 {field: 'batch_name', title: '批次'},
                 {field: 'class_name', title: '班级'},
                 {field: 'teacher_name', title: '老师'},
-                {field: 'course_name',title: '课程'},
-                {field: 'te_id', title: 'id',hide:true},
-                {field: 'mark',title: '分数', templet: '#markBar'},
-                {field: 'is_end',title: '是否结束', templet: '#is_endBar'},
+                {field: 'course_name', title: '课程'},
+                {field: 'te_id', title: 'id', hide: true},
+                {field: 'mark', title: '分数', templet: '#markBar'},
+                {field: 'is_end', title: '是否结束', templet: '#is_endBar'},
                 {title: '操作', minWidth: 50, templet: '#currentTableBar', fixed: "right", align: "center"}
             ]],
-            page:true,
-            limit:10,
-            response:{statusCode:0},
-            parseData:function (res) {
+            page: true,
+            limit: 10,
+            response: {statusCode: 0},
+            parseData: function (res) {
                 return {
                     "code": 0, //解析接口状态
                     "msg": "", //解析提示文本
@@ -80,74 +77,6 @@
                 }
             }
 
-        });
-        // 监听搜索操作
-        form.on('submit(data-search-btn)', function (data) {
-            var result = JSON.stringify(data.field);
-            layer.alert(result, {
-                title: '最终的搜索信息'
-            });
-            //执行搜索重载
-            table.reload('currentTableId', {
-                page: {
-                    curr: 1
-                }
-                , where: {
-                    searchParams: result
-                }
-            }, 'data');
-            return false;
-        });
-        // 监听添加操作
-        $(".data-add-btn").on("click", function () {
-            layer.open({
-                type:2,
-                content:"/toTeachingAdd",
-                maxmin:true,
-                area:['500px','500px'],
-                end: function () {//无论是确认还是取消，只要层被销毁了，end都会执行，不携带任何参数。layer.open关闭事件
-                    location.reload();　　//layer.open关闭刷新
-                }
-            })
-        });
-        // 监听删除操作
-        $(".data-delete-btn").on("click", function () {
-            var checkStatus = table.checkStatus('currentTableId')
-                , data = checkStatus.data;
-            if (JSON.stringify(data) == null || JSON.stringify(data) == "[]"){
-                layer.msg("选择不能为空！");
-            }else {
-                layer.confirm('真的删除行么', function (index) {
-                    if (index) {
-                        var checkStatus = table.checkStatus('currentTableId'),
-                            data = checkStatus.data;
-                        var id = [];
-                        if (data.length > 0) {
-                            for (var i = 0; i < data.length; i++) {
-                                id += data[i].te_id + ',';
-                            }
-                            console.log(id);
-                            $.ajax({
-                                type: "post",
-                                url: '/teachingDeleteMany',
-                                data: {"id": id},
-                                success: function (data) {
-                                    layer.alert(data.extend.msg);
-                                    // setTimeout(function () {
-                                    //     location.reload();
-                                    // }, 2000);
-                                    // layer.close(index);
-                                }
-
-                            });
-                            return false;
-                        }
-                        ;
-                    } else {
-                        layer.close(index);
-                    }
-                });
-            }
         });
         //监听表格复选框选择
         table.on('checkbox(currentTableFilter)', function (obj) {
@@ -163,27 +92,33 @@
                 //     area: ['500px', '300px']
                 // })
                 layer.open({
-                    type:2,
-                    content:"",
-                    maxmin:true,
-                    area:['500px','500px'],
+                    type: 2,
+                    content: "",
+                    maxmin: true,
+                    area: ['500px', '500px'],
                     end: function () {//无论是确认还是取消，只要层被销毁了，end都会执行，不携带任何参数。layer.open关闭事件
                         location.reload();　　//layer.open关闭刷新
                     }
                 })
             } else if (obj.event === 'delete') {
                 layer.confirm('确定？', function (index) {
-                    if (index){
+                    if (index) {
                         $.ajax({
-                            type:"post",
-                            url:"/getMark",
-                            data:{"id":data.te_id,"batch_name":data.batch_name,"class_name":data.class_name},
-                            success:function (data) {
+                            type: "post",
+                            url: "/getMark",
+                            data: {"te_id": data.te_id},
+                            success: function (data) {
                                 // obj.del();
                                 layer.alert(data.extend.msg);
+                                table.reload('currentTableId', {
+                                    url: '/teachingListWithPage',
+                                    page: {
+                                        curr: 1 //重新从第 1 页开始
+                                    }
+                                }); //只重载数据
                             }
                         });
-                    }else {
+                    } else {
                         layer.close(index);
                     }
                 });
