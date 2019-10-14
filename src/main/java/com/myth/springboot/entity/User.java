@@ -64,8 +64,12 @@ public class User {
 
     //
 
-    public User(Integer u_id) {
-        this.u_id = u_id;
+//    public User(Integer u_id) {
+//        this.u_id = u_id;
+//    }
+
+    public User(String u_name) {
+        this.u_name = u_name;
     }
 
     public User(Integer u_id, String u_name, String u_password, String type_id) {

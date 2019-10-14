@@ -24,20 +24,20 @@
     </resultMap>
     <select id="studentSelect" parameterType="com.myth.springboot.entity.Student" resultMap="sas">
         select * from student left outer join class on student.class_id=class.c_id
-        left outer join user on student.user_id=user.u_id
+        left outer join user on student.user_name=user.u_name
         left outer join dept on class.dept_id=dept.d_id
         <where>
             <if test="s_id != null">
                  student.s_id=#{s_id}
             </if>
             <if test="s_name != null">
-                student.s_name like %#{s_name}%
+                student.s_name like #{s_name}
             </if>
             <if test="class_id != null">
                 student.class_id = #{class_id}
             </if>
-            <if test="user_id !=null">
-                student.user_id=#{user_id}
+            <if test="user_name !=null">
+                student.user_name=#{user_name}
             </if>
         </where>
     </select>
@@ -52,7 +52,7 @@
     </delete>
 
     <delete id="studentDeleteByUserId" parameterType="com.myth.springboot.entity.Student">
-        delete from student where user_id=#{user_id}
+        delete from student where user_name=#{user_name}
     </delete>
     <!--根据姓名查找学生-->
     <select id="selectStudentByName" parameterType="com.myth.springboot.entity.Student" resultMap="sas">

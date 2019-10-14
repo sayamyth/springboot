@@ -22,7 +22,7 @@
     <div id="msg">
 
     </div>
-    <input th:value="${te_id}" id="te_id">
+    <input th:value="${te_id}" id="te_id" hidden>
     <div th:each="q:${q}">
         <div>
             <label class='layui-form-label' style='width: 200px' th:text="${q.getQuestion()}"></label>
@@ -32,6 +32,7 @@
             <input type="radio" value="2"  th:name="${qStat.index}" th:title="${q.getAnswer3()}">
             <input type="radio" value="1"  th:name="${qStat.index}" th:title="${q.getAnswer4()}">
         </div>
+        <br>
     </div>
 
     <div class="layui-form-item">
@@ -90,10 +91,10 @@
                 url:"addMark",
                 data:{"te_id":te_id,"point":point},
                 success:function (res) {
-                    alert(111)
+                    layer.alert(res.extend.msg)
                 },
                 error:function () {
-                    alert(222)
+                    alert("错误")
                 }
             })
         });

@@ -22,12 +22,12 @@
 <div>
     <form class="layui-form">
         <div class="layui-form-item">
-            <label class="layui-form-label">唯一ID</label>
+            <label class="layui-form-label">唯一用户名</label>
             <div class="layui-input-inline">
-                <input type="text" name="user_id" required lay-verify="required" placeholder="请输入唯一ID"
+                <input type="text" name="user_name" required lay-verify="required" placeholder="请输入唯一用户名"
                        autocomplete="off" class="layui-input">
             </div>
-            <div class="layui-form-mid layui-word-aux">用户唯一ID</div>
+            <div class="layui-form-mid layui-word-aux">用户唯一用户名</div>
         </div>
         <div class="layui-form-item">
             <label class="layui-form-label">姓名</label>
@@ -93,9 +93,17 @@
                     data: yes,
                     success: function (res) {
                         layer.alert(res.extend.msg);
+                        var index = parent.layer.getFrameIndex(window.name);
+                        setTimeout(function () {
+                            parent.layer.close(index);//关闭当前页
+                        }, 2000)
                     },
                     error: function () {
                         layer.alert("出错了")
+                        var index = parent.layer.getFrameIndex(window.name);
+                        setTimeout(function () {
+                            parent.layer.close(index);//关闭当前页
+                        }, 2000)
                     }
                 })
                 return false;

@@ -46,20 +46,20 @@ public class StudentController {
 
     @RequestMapping("/studentAdd")
     @ResponseBody
-    public Msg studentAdd(@PathParam("user_id") String user_id, @PathParam("name") String name, @PathParam("sex") String sex, @PathParam("c_id") String c_id) {
-
-        List<Student> students = studentService.studentSelect(new Student(user_id));
+    public Msg studentAdd(@PathParam("user_name") String user_name, @PathParam("name") String name, @PathParam("sex") String sex, @PathParam("c_id") String c_id) {
+        System.out.println(user_name);
+        List<Student> students = studentService.studentSelect(new Student(user_name));
 
         if (!students.isEmpty()) {
             return Msg.success().add("msg", "该生信息已存在！！！");
         }
 
-        List<User> users = userService.userSelect(new User(Integer.valueOf(user_id).intValue()));
+        List<User> users = userService.userSelect(new User(user_name));
         if (users.isEmpty()) {
             return Msg.success().add("msg", "无此用户！");
         }
         if (users.get(0).getType_id().equals("3")) {
-            Student student = new Student(user_id, name, sex, c_id);
+            Student student = new Student(user_name, name, sex, c_id);
             int i = studentService.studentInsert(student);
             if (i > 0) {
                 return Msg.success().add("msg", "添加学生详情成功");

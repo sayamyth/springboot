@@ -23,6 +23,8 @@ public class TController {
 
 
 
+
+
     //得到一个部门的老师信息
     @RequestMapping("/getTeacherInfo")
     @ResponseBody

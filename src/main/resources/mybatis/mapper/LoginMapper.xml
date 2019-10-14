@@ -5,7 +5,7 @@
 
     <!--    不同用户进行登陆-->
     <select id="selectUser" resultType="com.myth.springboot.entity.User">
-        select * from user where u_name=#{name} and u_password=#{password}
+        select * from user where u_name=#{name}
     </select>
 
 </mapper>

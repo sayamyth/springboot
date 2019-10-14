@@ -6,5 +6,5 @@ import org.apache.ibatis.annotations.Mapper;
 @Mapper
 public interface LoginMapper {
     //查找用户
-    User selectUser(String name,String password );
+    User selectUser(String name);
 }

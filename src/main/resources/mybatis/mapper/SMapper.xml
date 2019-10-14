@@ -13,7 +13,7 @@
     </resultMap>
     <select id="selectByUid" parameterType="string" resultMap="sbu">
         select * from student,class,batch
-        where student.user_id=#{u_id} and student.class_id=class.c_id and class.batch_id=batch.b_id
+        where student.user_name=#{u_name} and student.class_id=class.c_id and class.batch_id=batch.b_id
     </select>
     <!--    通过批次b_id，查询批次信息-->
     <select id="selectByBid" parameterType="string" resultType="com.myth.springboot.entity.Batch">

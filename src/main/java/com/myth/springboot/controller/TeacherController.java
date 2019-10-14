@@ -59,21 +59,21 @@ public class TeacherController {
 
     @RequestMapping("/teacherAdd")
     @ResponseBody
-    public Msg teacherAdd(@PathParam("user_id") String user_id, @PathParam("t_name")String t_name, @PathParam("sex")String sex, @PathParam("d_id")String d_id){
+    public Msg teacherAdd(@PathParam("user_name") String user_name, @PathParam("t_name")String t_name, @PathParam("sex")String sex, @PathParam("d_id")String d_id){
 
 
-        List<User> users = userService.userSelect(new User(Integer.valueOf(user_id).intValue()));
+        List<User> users = userService.userSelect(new User(user_name));
         if (users.isEmpty()) {
             return Msg.success().add("msg", "无此用户！");
         }
 
 
 
-        List<Teacher> t=teacherService.teacherSelect(new Teacher(user_id));
+        List<Teacher> t=teacherService.teacherSelect(new Teacher(user_name));
         if (!t.isEmpty()){
                 return Msg.success().add("msg","已有该教师信息！！！");
         }
-        Teacher teacher = new Teacher(user_id,t_name,sex,d_id);
+        Teacher teacher = new Teacher(user_name,t_name,sex,d_id);
         int i= teacherService.teacherAdd(teacher);
         if (i>0){
             return Msg.success().add("msg","教师信息添加成功！！！");

@@ -79,12 +79,17 @@ public class Teacher {
     public Teacher() {
     }
 
-    public Teacher(String user_id) {
-        this.user_id = user_id;
+//    public Teacher(String user_id) {
+//        this.user_id = user_id;
+//    }
+
+
+    public Teacher(String user_name) {
+        this.user_name = user_name;
     }
 
-    public Teacher(String user_id, String t_name, String sex, String dept_id) {
-        this.user_id = user_id;
+    public Teacher(String user_name, String t_name, String sex, String dept_id) {
+        this.user_name = user_name;
         this.t_name = t_name;
         this.sex = sex;
         this.dept_id = dept_id;

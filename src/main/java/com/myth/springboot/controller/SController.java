@@ -31,7 +31,7 @@ public class SController {
     @ResponseBody
     public Msg getTest(HttpServletRequest request) {
         //通过session获取user_id
-        String id = request.getSession().getAttribute("u_id").toString();
+        String id = request.getSession().getAttribute("user").toString();
         System.out.println(id);
         //获取评教批次信息
         Result result = sService.selectByUid(id);
@@ -39,7 +39,7 @@ public class SController {
         String user_id = request.getSession().getAttribute("u_id").toString();
         //获取已评教的信息
         List<Mark> marks = sService.selectMark(user_id);
-
+        System.out.println(result.getB_type()+"---------------------");
         if (result.getB_type().equals("1")) {
             System.out.println("---进入----");
             List<Teaching> teachings = teachingService.teachingSelect(new Teaching(result.getClass_name()));

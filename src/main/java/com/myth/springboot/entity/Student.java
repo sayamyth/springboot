@@ -14,14 +14,6 @@ public class Student {
     private String dept_name;
     private String user_name;
 
-    public String getDept_name() {
-        return dept_name;
-    }
-
-    public void setDept_name(String dept_name) {
-        this.dept_name = dept_name;
-    }
-
     public Integer getS_id() {
         return s_id;
     }
@@ -70,8 +62,6 @@ public class Student {
         this.cla = cla;
     }
 
-
-
     public String getClass_name() {
         return class_name;
     }
@@ -80,6 +70,13 @@ public class Student {
         this.class_name = class_name;
     }
 
+    public String getDept_name() {
+        return dept_name;
+    }
+
+    public void setDept_name(String dept_name) {
+        this.dept_name = dept_name;
+    }
 
     public String getUser_name() {
         return user_name;
@@ -93,8 +90,8 @@ public class Student {
     }
 
 
-    public Student(String user_id) {
-        this.user_id = user_id;
+    public Student(String user_name) {
+        this.user_name = user_name;
     }
 
     public Student(Integer s_id, String s_name, String sex, String class_id) {
@@ -104,8 +101,8 @@ public class Student {
         this.class_id = class_id;
     }
 
-    public Student(String user_id, String s_name, String sex, String class_id) {
-        this.user_id = user_id;
+    public Student(String user_name, String s_name, String sex, String class_id) {
+        this.user_id = user_name;
         this.s_name = s_name;
         this.sex = sex;
         this.class_id = class_id;

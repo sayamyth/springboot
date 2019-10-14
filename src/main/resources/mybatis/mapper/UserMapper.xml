@@ -25,6 +25,9 @@
             <if test="u_id != null">
                 u_id = #{u_id}
             </if>
+            <if test="u_name !=null">
+                u_name=#{u_name}
+            </if>
         </where>
     </select>
     <!--    通过id修改用户-->

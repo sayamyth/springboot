@@ -17,7 +17,7 @@
 <!--    此处有问题-->
     <select id="selectTeacherByUname" resultMap="stbu" parameterType="string">
         select * from user left join teacher
-        on user.u_id = teacher.user_id
+        on user.u_name = teacher.user_name
         WHERE user.u_name=#{u_name}
    </select>
     <!--通过部门id找到相同部门教师信息-->

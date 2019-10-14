@@ -10,8 +10,8 @@ public class LoginService {
     @Autowired
     LoginMapper mapper;
     //登陆
-    public User login(String username, String password){
-        User user=mapper.selectUser(username,password);
+    public User login(String username){
+        User user=mapper.selectUser(username);
         user.toString();
         return user;
     }

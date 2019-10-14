@@ -9,12 +9,14 @@ import com.myth.springboot.entity.User;
 import com.myth.springboot.service.StudentService;
 import com.myth.springboot.service.TeacherService;
 import com.myth.springboot.service.UserService;
+import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -49,7 +51,9 @@ public class UserController {
     public Msg userInsert(String name,String password,String type){
         String str[] = type.split("-");
         String type_id = str[0];
-        User user = new User(name,password,type_id);
+        String newPassword = BCrypt.hashpw(name,BCrypt.gensalt());
+        System.out.println(newPassword);
+        User user = new User(name,newPassword,type_id);
         List<User> u = userService.userSelect(new User());
         for (User uu:u){
             if (uu.getU_name().equals(name)){
@@ -99,10 +103,12 @@ public class UserController {
     //修改用户
     @RequestMapping("/userUpdate")
     @ResponseBody
-    public Msg userUpdate(String id,String name,String password,String type){
+    public Msg userUpdate(String id,String name,String password,String type, HttpServletRequest request){
         String str[] = type.split("-");
         String type_id = str[0];
-        User user = new User(Integer.valueOf(id).intValue(),name,password,type_id);
+        //修改身份时，重置密码
+        String newPassword = BCrypt.hashpw(name,BCrypt.gensalt());
+        User user = new User(Integer.valueOf(id).intValue(),name,newPassword,type_id);
 //        List<User> u = userService.userSelect(new User());
 //        for (User uu:u){
 //            if (uu.getU_name().equals(name)){
@@ -120,7 +126,7 @@ public class UserController {
     //删除用户
     @RequestMapping("/userDelete")
     @ResponseBody
-    public Msg userDelete(String id,String type_id){
+    public Msg userDelete(String id,String u_name,String type_id){
         System.out.println(id+"..."+type_id);
         String msg="";
         User user = new User();
@@ -129,7 +135,7 @@ public class UserController {
         if (type_id.equals("3")){
             System.out.println("学生身份");
             Student student = new Student();
-            student.setUser_id(id);
+            student.setUser_name(u_name);
             List<Student> students = studentService.studentSelect(student);
             System.out.println("---1--");
             //删除用户表，同时关联学生信息表的删除
@@ -159,7 +165,7 @@ public class UserController {
         else if (type_id.equals("2")){
             System.out.println("教师身份");
             Teacher teacher = new Teacher();
-           teacher.setUser_id(id);
+            teacher.setUser_name(u_name);
             List<Teacher> teachers = teacherService.teacherSelect(teacher);
             //删除用户表，同时关联学生信息表的删除
             if (teachers.isEmpty()){
@@ -191,10 +197,11 @@ public class UserController {
     }
     @RequestMapping("/userDeleteMany")
     @ResponseBody
-    public Msg userDeleteMany(String id,String type_id){
+    public Msg userDeleteMany(String id,String u_name,String type_id){
         System.out.println(id+"..."+type_id);
         String msg="";
         String ids[]=id.split(",");
+        String us[]=u_name.split(",");
         String type_ids[]=type_id.split(",");
 
         for (int i=0;i<ids.length;i++){
@@ -203,7 +210,7 @@ public class UserController {
             if (type_ids[i].equals("3")){
                 System.out.println("学生身份");
                 Student student = new Student();
-                student.setUser_id(ids[i]);
+                student.setUser_name(us[i]);
                 List<Student> students = studentService.studentSelect(student);
                 System.out.println("---1--");
                 //删除用户表，同时关联学生信息表的删除
@@ -233,7 +240,7 @@ public class UserController {
            else if (type_ids[i].equals("2")){
                 System.out.println("教师身份");
                 Teacher teacher = new Teacher();
-                teacher.setUser_id(ids[i]);
+                teacher.setUser_name(us[i]);
                 List<Teacher> teachers = teacherService.teacherSelect(teacher);
                 //删除用户表，同时关联学生信息表的删除
                 if (teachers.isEmpty()){

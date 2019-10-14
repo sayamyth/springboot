@@ -24,7 +24,10 @@ public class JumpController {
         return "login";
     }
 
-
+    @RequestMapping("/main")
+    public String main(){
+        return "index";
+    }
     //
     @RequestMapping("/toStudentList")
     public String toStudentList(){
@@ -196,5 +199,11 @@ public class JumpController {
     @RequestMapping("/toQuestionsUpdate")
     public String toQuestionsUpdate(){
         return "questions/questions-update";
+    }
+
+    ////得到数据表
+    @RequestMapping("/show")
+    public String toShow(){
+        return "t/show";
     }
 }

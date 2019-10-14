@@ -50,11 +50,11 @@ public class TeachingController {
             if(t.getClass_name().equals(claArr[1]) && t.getCourse_name().equals(courseArr[1])){
                 return Msg.success().add("msg","已有老师上课！");
             }
-            if (t.getClass_name().equals(claArr[1])){
-                if(t.getIs_end().equals("0")){
-                    return Msg.success().add("msg","此班级还没结业！");
-                }
-            }
+//            if (t.getClass_name().equals(claArr[1])){
+//                if(t.getIs_end().equals("0")){
+//                    return Msg.success().add("msg","此班级还没结业！");
+//                }
+//            }
 
         }
         Teaching teaching = new Teaching(batchArr[0],batchArr[1],claArr[0],claArr[1],dept_id,dept_name,teacherArr[0],teacherArr[1],courseArr[0],courseArr[1]);
