@@ -17,6 +17,7 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -25,7 +26,14 @@ import java.util.Map;
 public class LoginController {
     @Autowired
     LoginService loginService;
-
+    @RequestMapping("/loginOut")
+    public String loginOut(HttpServletRequest request){
+        Enumeration em = request.getSession().getAttributeNames();
+        while(em.hasMoreElements()){
+            request.getSession().removeAttribute(em.nextElement().toString());
+        }
+        return "login";
+    }
     @RequestMapping("/loginIn")
     public ModelAndView login(String username, String password, HttpServletRequest request, HttpServletResponse response) {
         ModelAndView mv;

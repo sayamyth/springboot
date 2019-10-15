@@ -93,7 +93,10 @@
                 success:function (res) {
                     // alert(111)
                     layer.alert(res.extend.msg)
-
+                    var index = parent.layer.getFrameIndex(window.name);
+                    setTimeout(function () {
+                        parent.layer.close(index);//关闭当前页
+                    },2000)
                 },
                 error:function () {
                     alert("错误")

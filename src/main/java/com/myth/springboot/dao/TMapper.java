@@ -14,4 +14,8 @@ public interface TMapper {
     List<Questions> selectTest();
     int insertMark(String teacher_id,String role_id, String time,String point);
     Tmark selectMark(String teacher_id, String role_id, String time);
+
+    List<Teaching> getTeachingList(String user_name);
+    List<Mark> getStudentPoint(String te_id);
+    List<Tmark> selectTeacherPoint(String user_name,String time);
 }

@@ -38,4 +38,21 @@
         select * from tmark
         where teacher_id=#{teacher_id} and role_id=#{role_id} and time=#{time}
     </select>
+    <!--查询学生评教信息-->
+    <select id="getTeachingList" parameterType="string" resultType="com.myth.springboot.entity.Teaching">
+        select * from teacher,teaching
+        where teacher.t_id=teaching.teacher_id
+        and teacher.user_name=#{user_name}
+    </select>
+    <select id="getStudentPoint"  parameterType="string" resultType="com.myth.springboot.entity.Mark">
+        select * from mark
+        where te_id=#{te_id}
+    </select>
+    <!--查询老师评教信息-->
+    <select id="selectTeacherPoint" parameterType="string" resultType="com.myth.springboot.entity.Tmark">
+        select * from tmark,teacher
+        where tmark.teacher_id=teacher.t_id
+        and teacher.user_name=#{user_name}
+        and tmark.time=#{time}
+    </select>
 </mapper>

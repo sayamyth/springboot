@@ -27,4 +27,14 @@ public class TService {
     public Tmark selectMark(String teacher_id, String role_id, String time){
         return mapper.selectMark(teacher_id,role_id,time);
     }
+
+    public List<Teaching> getTeachingList(String user_name){
+        return mapper.getTeachingList(user_name);
+    }
+    public  List<Mark> getStudentPoint(String te_id){
+        return mapper.getStudentPoint(te_id);
+    }
+    public List<Tmark> selectTeacherPoint(String user_name,String time){
+        return mapper.selectTeacherPoint(user_name,time);
+    }
 }

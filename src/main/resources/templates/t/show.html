@@ -28,21 +28,43 @@
         },
         tooltip: {},
         legend: {
-            data:['平均分']
+            data:[]
         },
         xAxis: {
-            data: ["衬衫","羊毛衫","雪纺衫","裤子","高跟鞋","袜子"]
+            data: []
         },
         yAxis: {},
         series: [{
-            name: '销量',
+            name: '分数',
             type: 'bar',
-            data: [5, 20, 36, 10, 10, 20]
+            data: [10,20]
         }]
     };
 
     // 使用刚指定的配置项和数据显示图表。
     myChart.setOption(option);
+    $(function () {
+        $.ajax({
+            url:"getTeacherPoint",
+            success:function (res) {
+                myChart.setOption({
+                    xAxis: {
+                        data: res.extend.data
+                    },
+                    series: [{
+                        // 根据名字对应到相应的系列
+                        name: '分数',
+                        data: res.extend.data
+                    }]
+                });
+
+            },
+            error:function () {
+
+            }
+        })
+    })
+
 </script>
 </body>
 </html>

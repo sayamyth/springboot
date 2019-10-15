@@ -164,7 +164,7 @@ public class JumpController {
     }
     @RequestMapping("toT1")
     public String toT1(){
-        return "t/list1";
+        return "t/list";
     }
 
 
