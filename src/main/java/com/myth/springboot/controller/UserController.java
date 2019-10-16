@@ -30,7 +30,19 @@ public class UserController {
     @Autowired
     TeacherService teacherService;
 
-
+    //根据name查找用户
+    @RequestMapping("/selectUserByNames")
+    @ResponseBody
+    public Map selectUserByNames(String u_name){
+        PageHelper.startPage(1,10);
+       User user = new User();
+        user.setU_name(u_name);
+        List<User> list=userService.selectUserByNames(u_name);
+        PageInfo pageInfo = new PageInfo(list,5);
+        Map<String,Object> map = new HashMap<>();
+        map.put("data",pageInfo);
+        return map;
+    }
     //根据name查找用户
     @RequestMapping("/selectUserByName")
     @ResponseBody

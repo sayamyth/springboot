@@ -15,4 +15,8 @@ public class LoginService {
         user.toString();
         return user;
     }
+
+    public int updatePassword(String u_password,String u_name){
+        return mapper.updatePassword(u_password,u_name);
+    }
 }

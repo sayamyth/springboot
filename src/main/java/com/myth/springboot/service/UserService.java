@@ -32,6 +32,8 @@ public class UserService {
         return mapper.selectUserByName(u_name);
     }
 
-
+    public List<User> selectUserByNames(String u_name){
+        return mapper.selectUserByNames(u_name);
+    }
 
 }

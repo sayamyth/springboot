@@ -54,7 +54,7 @@
 
                 <dl class="layui-nav-child">
                     <dd>
-                        <a href="javascript:;" data-iframe-tab="page/user-password.html" data-title="修改密码" data-icon="fa fa-gears">修改密码</a>
+                        <a id="newPassword" data-icon="fa fa-gears">修改密码</a>
                     </dd>
                     <dd>
                         <a href="loginOut" class="login-out">退出登录</a>
@@ -110,6 +110,15 @@
             layer.msg('退出登录成功', function () {
                 window.location = '/page/login-1.html';
             });
+        });
+
+        $("#newPassword").on("click", function () {
+            layer.open({
+                type:2,
+                content:"/toUpdatePass",
+                maxmin:true,
+                area:['500px','300px'],
+            })
         });
     });
 </script>

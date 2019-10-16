@@ -45,5 +45,10 @@
         select * from user left join type on user.type_id=type.id
         where u_name like concat('%',#{u_name},'%')
     </select>
+    <!--根据姓名查找用户-->
+    <select id="selectUserByNames" parameterType="com.myth.springboot.entity.User" resultMap="us">
+        select * from user
+        where u_name like concat('%',#{u_name},'%')
+    </select>
 
 </mapper>

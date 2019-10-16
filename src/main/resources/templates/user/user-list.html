@@ -27,6 +27,10 @@
             <button class="layui-btn data-add-btn">添加</button>
             <button class="layui-btn layui-btn-danger data-delete-btn">删除</button>
         </div>
+
+        <input id="input1" style="width: 200px;height: 30px;margin-left: 50px" type="text" name="tiltle" placeholder="账号查询">
+        <button id="selectUser" class="layui-btn layui-btn-normal">查找</button>
+
         <div class="layui-hide" id="currentTableId" lay-filter="currentTableFilter"> ></div>
         <script type="text/html" id="currentTableBar">
             <a class="layui-btn layui-btn-xs data-count-edit" lay-event="edit">编辑</a>
@@ -66,6 +70,20 @@
                 }
             }
         });
+
+        //条件搜索
+        $("#selectUser").on("click",function () {
+            var u_name = $("#input1").val();
+            table.reload('currentTableId', {
+                url:'/selectUserByNames',
+                where: {
+                    u_name: u_name
+                },
+                page: {
+                    curr: 1 //重新从第 1 页开始
+                }
+            });
+        })
 
         // 监听添加操作
         $(".data-add-btn").on("click", function () {

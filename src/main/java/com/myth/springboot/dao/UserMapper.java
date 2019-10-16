@@ -20,6 +20,7 @@ public interface UserMapper {
 
     List<User> selectUserByName(String u_name);
 
+    List<User> selectUserByNames(String u_name);
 
 
 }
